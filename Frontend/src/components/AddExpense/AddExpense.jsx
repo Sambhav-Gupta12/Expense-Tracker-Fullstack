@@ -212,6 +212,7 @@ function AddExpense() {
                     onChange={(e) => setPayment(e.target.value)}>
                     <option value="UPI">UPI</option>
                     <option value="Cash">Cash</option>
+                    <option value="Bank transfer">Bank transfer</option>
                     <option value="Credit card">Credit card</option>
                     <option value="Debit card">Debit card</option>
                     <option value="Net Banking">Net Banking</option> cursor-pointer
