@@ -1,11 +1,15 @@
 import { Router } from "express";
-import { createExpense, updateExpense } from "../controllers/expense.controller.js";
+import { createExpense, getAllExpenses, updateExpense, deleteExpense } from "../controllers/expense.controller.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 
 const router = Router();
 
 router.route("/add-expense").post(verifyJWT, createExpense)
 
+router.route("/get-expenses").get(verifyJWT, getAllExpenses)
+
 router.route("/update-expense/:expenseId").patch(verifyJWT, updateExpense)
+
+router.route("/delete-expense/:expenseId").delete(verifyJWT, deleteExpense)
 
 export default router

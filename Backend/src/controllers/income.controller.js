@@ -1,24 +1,23 @@
 import { asyncHandler } from "../utils/asyncHandler.js"
 import { ApiError } from "../utils/ApiErrors.js"
 import { ApiResponse } from "../utils/ApiResponse.js"
-import { Expense } from "../models/expense.model.js"
+import { Income } from "../models/income.model.js"
 import jwt from "jsonwebtoken"
 import mongoose from "mongoose"
 
-const createExpense = asyncHandler(async (req, res) => {
+const createIncome = asyncHandler(async (req, res) => {
 
-    // Get expense data from frontend
+    // Get income data from frontend
     // check for validation and empty fields
     // make user the owner
     // Save the data in DB
     // give response
 
-    const { title, amount, category, paymentMethod, account, date, note } = req.body
+    const { title, amount, paymentMethod, account, date, note } = req.body
 
     if (
         !title?.trim() ||
         !amount ||
-        !category?.trim() ||
         !paymentMethod?.trim() ||
         !date
     ) {
@@ -29,11 +28,10 @@ const createExpense = asyncHandler(async (req, res) => {
         throw new ApiError(400, "Amount must be greater than 0");
     }
 
-    const expense = await Expense.create(
+    const income = await Income.create(
         {
             title,
             amount,
-            category,
             paymentMethod,
             account,
             date,
@@ -42,45 +40,44 @@ const createExpense = asyncHandler(async (req, res) => {
         }
     )
 
-    if (!expense) {
+    if (!income) {
         throw new ApiError(500, "Something went wrong");
     }
 
     res
         .status(201)
         .json(
-            new ApiResponse(201, expense, "Expense added !!")
+            new ApiResponse(201, income, "Income added !!")
         )
 
 })
 
-const getAllExpenses = asyncHandler(async (req, res) => {
+const getAllIncomes = asyncHandler(async (req, res) => {
 
-    const expenses = await Expense.find({
+    const incomes = await Income.find({
         owner: req.user._id
     })
 
     res
         .status(200)
         .json(
-            new ApiResponse(200, expenses, "Expenses fetched successfully")
+            new ApiResponse(200, incomes, "Incomes fetched successfully")
         )
 })
 
-const updateExpense = asyncHandler(async (req, res) => {
+const updateIncome = asyncHandler(async (req, res) => {
 
     // Get data to be updated from frontend
     // validation for empty
-    // get expense id from params
+    // get income id from params
     // find by id and update
     // send response
 
-    const { title, amount, category, paymentMethod, account, date, note } = req.body
+    const { title, amount, paymentMethod, account, date, note } = req.body
 
     if (
         !title?.trim() ||
         !amount ||
-        !category?.trim() ||
         !paymentMethod?.trim() ||
         !date
     ) {
@@ -91,16 +88,16 @@ const updateExpense = asyncHandler(async (req, res) => {
         throw new ApiError(400, "Amount must be greater than 0");
     }
 
-    const { expenseId } = req.params;
+    const { incomeId } = req.params;
 
-    if (!mongoose.Types.ObjectId.isValid(expenseId)) {
-        throw new ApiError(400, "Invalid expense ID");
+    if (!mongoose.Types.ObjectId.isValid(incomeId)) {
+        throw new ApiError(400, "Invalid income ID");
     }
 
-    const expense = await Expense.findOneAndUpdate(
+    const income = await Income.findOneAndUpdate(
 
         {
-            _id: expenseId,
+            _id: incomeId,
             owner: req.user._id
         },
 
@@ -108,7 +105,6 @@ const updateExpense = asyncHandler(async (req, res) => {
             $set: {
                 title: title.trim(),
                 amount,
-                category,
                 paymentMethod,
                 account,
                 date,
@@ -118,46 +114,46 @@ const updateExpense = asyncHandler(async (req, res) => {
         { new: true }
     )
 
-    if (!expense) {
-        throw new ApiError(404, "Expense not found");
+    if (!income) {
+        throw new ApiError(404, "Income not found");
     }
 
     res
         .status(200)
         .json(
-            new ApiResponse(200, expense, "Expense updated successfully")
+            new ApiResponse(200, income, "Income updated successfully")
         )
 
 })
 
-const deleteExpense = asyncHandler(async (req, res) => {
+const deleteIncome = asyncHandler(async (req, res) => {
 
-    const { expenseId } = req.params;
+    const { incomeId } = req.params;
 
-    if (!mongoose.Types.ObjectId.isValid(expenseId)) {
-        throw new ApiError(400, "Invalid expense ID");
+    if (!mongoose.Types.ObjectId.isValid(incomeId)) {
+        throw new ApiError(400, "Invalid income ID");
     }
 
-    const expense = await Expense.findOneAndDelete({
-        _id: expenseId,
+    const income = await Income.findOneAndDelete({
+        _id: incomeId,
         owner: req.user._id
     })
 
-    if (!expense) {
-        throw new ApiError(404, "Expense not found");
+    if (!income) {
+        throw new ApiError(404, "Income not found");
     }
 
     res
         .status(200)
         .json(
-            new ApiResponse(200, {}, "Expense deleted successfully")
+            new ApiResponse(200, {}, "Income deleted successfully")
         )
 
 })
 
 export {
-    createExpense,
-    updateExpense,
-    getAllExpenses,
-    deleteExpense
+    createIncome,
+    updateIncome,
+    getAllIncomes,
+    deleteIncome
 }
