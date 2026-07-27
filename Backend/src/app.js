@@ -18,10 +18,14 @@ app.use(cookieParser())
 import userRouter from './routes/user.routes.js'
 import expenseRouter from './routes/expense.routes.js'
 import incomeRouter from './routes/income.routes.js'
+import budgetRouter from './routes/budget.routes.js'
+import catBudgetRouter from './routes/catBudget.routes.js'
 
 //routes declaration
 app.use("/api/v1/users", userRouter)
 app.use("/api/v1/expenses", expenseRouter)
 app.use("/api/v1/incomes", incomeRouter)
+app.use("/api/v1/budgets", budgetRouter)
+app.use("api/v1/category-budgets", catBudgetRouter)
 
 export { app }
