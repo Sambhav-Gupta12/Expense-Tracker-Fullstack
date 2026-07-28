@@ -155,9 +155,66 @@ const deleteExpense = asyncHandler(async (req, res) => {
 
 })
 
+// Calculating total expense, total category wise expenses in backend using aggregation pipeline. Not going to use in this project, just for practicing.
+
+const getTotalExpense = asyncHandler(async (req, res) => {
+
+    const totalExpense = await Expense.aggregate([
+        {
+            $match: {
+                owner: req.user._id
+            }
+        },
+        {
+            $group: {
+                _id: null,
+                totalExpense: {
+                    $sum: "$amount"
+                }
+            }
+        }
+    ])
+
+    const total =
+        totalExpense[0]?.totalExpense || 0;
+
+    res
+        .status(200)
+        .json(
+            new ApiResponse(200, total, "Total expense fetched")
+        )
+})
+
+const getCategoryExpenseSummary = asyncHandler(async (req, res) => {
+
+    const totalCatExpense = await Expense.aggregate([
+        {
+            $match: {
+                owner: req.user._id
+            }
+        },
+        {
+            $group: {
+                _id: "$category",
+                totalCatExpense: {
+                    $sum: "$amount"
+                }
+            }
+        }
+    ]);
+
+    res
+    .status(200)
+    .json(
+        new ApiResponse(200, totalCatExpense, "Category wise total expenses fetched")
+    )
+})
+
 export {
     createExpense,
     updateExpense,
     getAllExpenses,
-    deleteExpense
+    deleteExpense,
+    getTotalExpense,
+    getCategoryExpenseSummary
 }

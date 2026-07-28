@@ -12,21 +12,26 @@ import AddExpense from './components/AddExpense/AddExpense.jsx'
 import { ExpenseProvider } from "./context/ExpenseContext";
 import { BudgetProvider } from "./context/BudgetContext";
 import { CatBudProvider } from "./context/CatBudContext";
+import Auth from './components/landingPage/Auth.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path='/' element={<Layout />}>
-      <Route path='' element={<Dashboard />} />
-      <Route path='transactions' element={<Transactions />} />
-      <Route path='budgets' element={<Budgets />} />
-      <Route path='profile' element={<Profile />} />
-      <Route path='add-expense' element={<AddExpense />} />
-      {/* <Route 
+    <>
+      <Route path="/" element={<Auth />} />
+
+      <Route path='/' element={<Layout />}>
+        <Route path='dashboard' element={<Dashboard />} />
+        <Route path='transactions' element={<Transactions />} />
+        <Route path='budgets' element={<Budgets />} />
+        <Route path='profile' element={<Profile />} />
+        <Route path='add-expense' element={<AddExpense />} />
+        {/* <Route 
       loader={githubInfoLoader}
       path='github' 
       element={<Github />}
        /> */}
-    </Route>
+      </Route>
+    </>
   )
 )
 
