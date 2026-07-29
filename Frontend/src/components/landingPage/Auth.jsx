@@ -70,7 +70,7 @@ function Auth() {
             console.log(error);
 
             setError(
-                error.response?.data?.message || "Something went wrong"
+                error.response?.data?.message || "Invalid email/username or password"
             );
         } finally {
 
