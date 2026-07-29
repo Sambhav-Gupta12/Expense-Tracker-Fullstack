@@ -2,6 +2,7 @@ import React from 'react'
 import { useState } from 'react';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from '../../context/AuthContext.jsx';
 
 function Auth() {
 
@@ -17,10 +18,22 @@ function Auth() {
 
     const [loading, setLoading] = useState(false);
 
+    const { setUser } = useAuth();
+
     const navigate = useNavigate();
 
     const handleLogin = async (e) => {
         e.preventDefault();
+
+        if (!emailOrUsername.trim()) {
+            setError("Email or Username is required.");
+            return;
+        }
+
+        if (!password.trim()) {
+            setError("Password is required.");
+            return;
+        }
 
         setLoading(true);
 
@@ -43,6 +56,8 @@ function Auth() {
                     withCredentials: true,
                 }
             );
+
+            setUser(response.data.data.user);
 
             setEmailOrUsername("");
             setPassword("");
@@ -67,6 +82,40 @@ function Auth() {
     const handleRegister = async (e) => {
         e.preventDefault();
 
+        setError("");
+
+        if (!fullName.trim()) {
+            setError("Full name is required.");
+            return;
+        }
+
+        if (!username.trim()) {
+            setError("Username is required.");
+            return;
+        }
+
+        if (username.trim().length < 4) {
+            setError("Username must be at least 4 characters.");
+            return;
+        }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!emailRegex.test(email)) {
+            setError("Please enter a valid email address.");
+            return;
+        }
+
+        if (!password.trim()) {
+            setError("Password is required.");
+            return;
+        }
+
+        if (password.length < 8) {
+            setError("Password must be at least 8 characters long.");
+            return;
+        }
+
         setLoading(true);
 
         try {
@@ -75,8 +124,13 @@ function Auth() {
                 username,
                 email,
                 password
-            }
-        );
+            },
+                {
+                    withCredentials: true
+                }
+            );
+
+            setUser(response.data.data.user);
 
             // const { user } = response.data.data;
 

@@ -13,13 +13,22 @@ import { ExpenseProvider } from "./context/ExpenseContext";
 import { BudgetProvider } from "./context/BudgetContext";
 import { CatBudProvider } from "./context/CatBudContext";
 import Auth from './components/landingPage/Auth.jsx'
+import ProtectedRoute from './components/ProtectedRoutes/ProtectedRoute.jsx'
+import { AuthProvider } from './context/AuthContext.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
       <Route path="/" element={<Auth />} />
 
-      <Route path='/' element={<Layout />}>
+      <Route
+        path="/"
+        element={
+          <ProtectedRoute>
+            <Layout />
+          </ProtectedRoute>
+        }
+      >
         <Route path='dashboard' element={<Dashboard />} />
         <Route path='transactions' element={<Transactions />} />
         <Route path='budgets' element={<Budgets />} />
@@ -37,12 +46,14 @@ const router = createBrowserRouter(
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <ExpenseProvider>
-      <BudgetProvider>
-        <CatBudProvider>
-          <RouterProvider router={router} />
-        </CatBudProvider>
-      </BudgetProvider>
-    </ExpenseProvider>
+    <AuthProvider>
+      <ExpenseProvider>
+        <BudgetProvider>
+          <CatBudProvider>
+            <RouterProvider router={router} />
+          </CatBudProvider>
+        </BudgetProvider>
+      </ExpenseProvider>
+    </AuthProvider>
   </StrictMode>,
 )

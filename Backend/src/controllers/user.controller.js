@@ -78,10 +78,20 @@ const registerUser = asyncHandler(async (req, res) => {
         throw new ApiError(500, "Something went wrong while registering the user")
     }
 
+    const { accessToken, refreshToken } = await generateAccessAndRefreshTokens(createdUser._id);
+
+    const options = {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax"
+    }
+
     return res
         .status(201)
+        .cookie("accessToken", accessToken, options)
+        .cookie("refreshToken", refreshToken, options)
         .json(
-            new ApiResponse(200, createdUser, "User registered Successfully")
+            new ApiResponse(201, {user: createdUser, accessToken, refreshToken}, "User registered Successfully")
         )
 })
 
@@ -120,7 +130,8 @@ const loginUser = asyncHandler(async (req, res) => {
 
     const options = {
         httpOnly: true,
-        secure: true
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax"
     }
 
     return res
@@ -155,7 +166,8 @@ const logoutUser = asyncHandler(async (req, res) => {
 
     const options = {
         httpOnly: true,
-        secure: true
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax"
     }
 
     return res
@@ -260,7 +272,7 @@ const getCurrentUser = asyncHandler(async (req, res) => {
 const updateAccountDetails = asyncHandler(async (req, res) => {
     const { fullName, email, username } = req.body
 
-    if(
+    if (
         [fullName, email, username].some(
             field => !field?.trim()
         )
@@ -292,7 +304,7 @@ const updateAccountDetails = asyncHandler(async (req, res) => {
         {
             new: true,
             runValidators: true
-         }
+        }
 
     ).select("-password")
 

@@ -1,7 +1,38 @@
 import React from 'react'
 import Row from './Row'
+import { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from "react-router-dom";
+import { useAuth } from '../../context/AuthContext.jsx';
+import ConfirmModal from '../confirmModal/ConfirmModal.jsx';
 
 function ProfileCard() {
+
+    const [showLogoutModal, setShowLogoutModal] = useState(false);
+
+    const { setUser } = useAuth();
+
+    const navigate = useNavigate();
+
+    const handleLogout = async (e) => {
+        e.preventDefault();
+
+        try {
+            await axios.post("http://localhost:8000/api/v1/users/logout",
+                {},
+                {
+                    withCredentials: true,
+                });
+
+            setUser(null);
+            navigate("/");
+
+        } catch (error) {
+            console.log(error);
+        }
+
+
+    }
     return (
         <div className="bg-[#262624] border border-[#494945] rounded-2xl p-6">
 
@@ -32,9 +63,24 @@ function ProfileCard() {
                 <Row label="Avg savings" value="26%" />
             </div>
 
-            <button className="w-full mt-6 border border-[#65645f] rounded-xl py-3 text-white hover:bg-[#30302e]">
+            <button className="cursor-pointer w-full mt-6 border border-[#65645f] rounded-xl py-3 text-white hover:bg-[#30302e]">
                 Edit profile
             </button>
+
+            <button
+                onClick={() => setShowLogoutModal(true)}
+                className="cursor-pointer w-full mt-6 border border-[#65645f] rounded-xl py-3 text-white hover:bg-[#30302e]">
+                Logout
+            </button>
+
+            {
+                showLogoutModal && (
+                    <ConfirmModal
+                        onCancel={() => setShowLogoutModal(false)}
+                        onConfirm={handleLogout}
+                    />
+                )
+            }
         </div>
     )
 }

@@ -17,7 +17,7 @@ function NavBar() {
 
         <div className="flex flex-col px-4 mt-6 gap-2">
           <NavLink
-            to="/"
+            to="/dashboard"
             className={({ isActive }) =>
               `flex gap-2.5 py-2 pr-4 pl-3 duration-200 rounded-lg p-1 m-0.5 w-62 ${
                 isActive
