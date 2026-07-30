@@ -2,7 +2,7 @@ export const DB_NAME = "ExpenseTracker"
 
 export const CATEGORIES = [
     "Food",
-    "Transport",
+    "Transportation",
     "Bills",
     "Shopping",
     "Entertainment",

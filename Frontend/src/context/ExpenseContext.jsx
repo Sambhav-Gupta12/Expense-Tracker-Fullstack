@@ -1,20 +1,39 @@
-import { createContext, useContext, useState } from "react";
-import { useEffect } from "react";
+import axios from "axios";
+import { createContext, useContext, useEffect, useState } from "react";
+import { useAuth } from "./AuthContext";
 
 const ExpenseContext = createContext();
 
 export const ExpenseProvider = ({ children }) => {
-  const [expenses, setExpenses] = useState(() => {
-  const saved = localStorage.getItem("expenses");
-  return saved ? JSON.parse(saved) : [];
-});
+  const [expenses, setExpenses] = useState([]);
 
-useEffect(() => {
-  localStorage.setItem("expenses", JSON.stringify(expenses));
-}, [expenses]);
+  const { user } = useAuth();
+
+  const fetchExpenses = async () => {
+    try {
+
+      const response = await axios.get(
+        "http://localhost:8000/api/v1/expenses/get-expenses",
+        {
+          withCredentials: true,
+        }
+      );
+
+      setExpenses(response.data.data)
+
+    } catch (error) {
+      setExpenses([])
+    }
+  }
+
+  useEffect(() => {
+    if (user) {
+      fetchExpenses();
+    }
+  }, [user]);
 
   return (
-    <ExpenseContext.Provider value={{ expenses, setExpenses }}>
+    <ExpenseContext.Provider value={{ expenses, setExpenses, fetchExpenses }}>
       {children}
     </ExpenseContext.Provider>
   );

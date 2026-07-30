@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import '../../styles/AddExp.css'
 import { useExpense } from "../../context/ExpenseContext";
+import { useIncome } from '../../context/IncomeContext';
 import OtherExp from './OtherExp';
+import axios from 'axios';
 
 function AddExpense() {
 
@@ -19,7 +21,12 @@ function AddExpense() {
 
   const [showOther, setShowOther] = useState(false)
 
+  const [error, setError] = useState("");
+
+  const [success, setSuccess] = useState("");
+
   const { setExpenses } = useExpense();
+  const { setIncomes } = useIncome()
 
   const categoryIcons = {
     Food: "🍔",
@@ -31,39 +38,184 @@ function AddExpense() {
     Education: "📚",
   };
 
-  const handleSubmit = () => {
-    const [yyyy, mm, dd] = date.split("-");
-    const formattedDate = `${dd}-${mm}-${yyyy}`;
-    const newExpense = {
-      id: Date.now(),
-      transType: transType,
-      amount: amount,
-      date: formattedDate,
-      title: title,
-      category: category,
-      categoryIcon: customIcon || categoryIcons[category] || "💰",
-      payment: payment,
-      account: account,
-      notes: notes
-    };
+  const handleExpenseSubmit = async () => {
 
-    setExpenses((prev) => [...prev, newExpense]);
+    setError("");
+    setSuccess("");
 
-    setCategory("Food");
-    setTransType(transType);
-    setAmount("");
-    setDate("");
-    setTitle("");
-    setPayment("UPI");
-    setAccount("Main account");
-    setNotes("")
+    if (!amount.trim()) {
+      setError("Amount is required.");
+      return;
+    }
+
+    if (!date.trim()) {
+      setError("Date is required.");
+      return;
+    }
+
+    if (!title.trim()) {
+      setError("Title is required.");
+      return;
+    }
+
+    if (Number(amount) <= 0) {
+      setError("Enter a valid amount.");
+      return;
+    }
+
+    if (!category.trim()) {
+      setError("Category is required.");
+      return;
+    }
+
+    try {
+      // const [yyyy, mm, dd] = date.split("-");
+      // const formattedDate = `${dd}-${mm}-${yyyy}`;
+      const newExpense = {
+        // id: Date.now(),
+        // transType: transType,
+        title: title,
+        amount: Number(amount),
+        category: category,
+        paymentMethod: payment,
+        account: account,
+        date,
+        note: notes,
+        categoryIcon: customIcon || categoryIcons[category] || "💰"
+      };
+
+      const response = await axios.post("http://localhost:8000/api/v1/expenses/add-expense",
+        newExpense,
+        {
+          withCredentials: true,
+        }
+      )
+
+      setExpenses((prev) => [...prev, response.data.data]);
+
+      setCategory("Food");
+      // setTransType(transType);
+      setAmount("");
+      setDate("");
+      setTitle("");
+      setPayment("UPI");
+      setAccount("Main account");
+      setNotes("")
+      setCustomIcon("");
+      setShowOther(false);
+      setSelectedButton("Food");
+
+      setSuccess("Expense added successfully!");
+
+      setTimeout(() => {
+        setSuccess("");
+      }, 3000);
+
+    } catch (error) {
+      console.log(error);
+      console.log(error.response);
+      console.log(error.response?.data);
+
+      setError(
+        error.response?.data?.message ||
+        "Unable to add expense."
+      );
+
+    }
+  };
+
+  const handleIncomeSubmit = async () => {
+
+    setError("");
+    setSuccess("");
+
+    if (!amount.trim()) {
+      setError("Amount is required.");
+      return;
+    }
+
+    if (!date.trim()) {
+      setError("Date is required.");
+      return;
+    }
+
+    if (!title.trim()) {
+      setError("Title is required.");
+      return;
+    }
+
+    if (Number(amount) <= 0) {
+      setError("Enter a valid amount.");
+      return;
+    }
+
+    try {
+      // const [yyyy, mm, dd] = date.split("-");
+      // const formattedDate = `${dd}-${mm}-${yyyy}`;
+      const newIncome = {
+        // id: Date.now(),
+        // transType: transType,
+        title: title,
+        amount: Number(amount),
+        paymentMethod: payment,
+        account: account,
+        date,
+        note: notes,
+      };
+
+      const response = await axios.post("http://localhost:8000/api/v1/incomes/add-income",
+        newIncome,
+        {
+          withCredentials: true,
+        }
+      )
+
+      setIncomes((prev) => [...prev, response.data.data]);
+
+      // setTransType(transType);
+      setAmount("");
+      setDate("");
+      setTitle("");
+      setPayment("UPI");
+      setAccount("Main account");
+      setNotes("")
+
+      setSuccess("Income added successfully!");
+
+      setTimeout(() => {
+        setSuccess("");
+      }, 3000);
+
+    } catch (error) {
+      console.log(error);
+      console.log(error.response);
+      console.log(error.response?.data);
+
+      setError(
+        error.response?.data?.message ||
+        "Unable to add income."
+      );
+
+    }
   };
 
   return (
     <div className='flex justify-center items-center w-full h-full rounded-r-2xl bg-[#30302e]'>
       <div className="md:w-[56%] w-full h-165 bg-[#30302e] p-2 md:p-0 md:bg-[#1e1e1d] rounded-xl flex justify-center items-center">
-        <div className="md:w-[95%] w-full h-155 bg-[#30302e] rounded-xl border-[1.5px] border-[#494945]">
+        <div className="md:w-[95%] w-full h-155 overflow-x-scroll no-scrollbar pb-4 bg-[#30302e] rounded-xl border-[1.5px] border-[#494945]">
           <div className="text-white mt-2 ml-4 font-semibold text-[18px]">Add new expense</div>
+
+          {error && (
+            <div className="mx-4 mt-3 rounded-lg bg-red-500/15 border border-red-500 px-4 py-2 text-red-400">
+              {error}
+            </div>
+          )}
+
+          {success && (
+            <div className="mx-4 mt-3 rounded-lg bg-green-500/15 border border-green-500 px-4 py-2 text-green-400">
+              {success}
+            </div>
+          )}
 
           <div className="Trans-type flex justify-center mt-2 px-6">
             <button
@@ -247,112 +399,112 @@ function AddExpense() {
             <div className="flex gap-6 justify-center px-6 mt-4">
               <button
                 className='w-1/5 border-[1.5px] rounded-lg font-semibold text-white h-10 border-[#80807a] hover:bg-[#272726] duration-300 cursor-pointer'
-                onClick={() => { setCategory("Food"), setSelectedButton("Food"), setTransType("expense"), setAmount(""), setDate(""), setTitle(""), setPayment("UPI"), setAccount("Main account"), setNotes("") }}>
+                onClick={() => { setCategory("Food"), setSelectedButton("Food"), setTransType("expense"), setAmount(""), setDate(""), setTitle(""), setPayment("UPI"), setAccount("Main account"), setNotes(""), setCustomIcon(""), setShowOther(false); }}>
                 Cancel
               </button>
 
               <button
                 className='w-1/2 border-[1.5px] rounded-lg font-semibold text-white h-10 border-[#80807a] hover:bg-[#272726] duration-300 cursor-pointer'
-                onClick={() => { setAmount(amount), setDate(date), setTitle(title), setPayment(payment), setAccount(account), setNotes(notes), console.log(amount), handleSubmit(), console.log(date), console.log(title), console.log(payment), console.log(account), console.log(notes), console.log(category), console.log(transType) }}>
+                onClick={() => { handleExpenseSubmit(), console.log(amount), console.log(date), console.log(title), console.log(payment), console.log(account), console.log(notes), console.log(category), console.log(transType) }}>
                 Save expense →
               </button>
             </div>
           </div>) : (
             <div>
               {/* Income section */}
-            <div className="Amount flex justify-center gap-6 px-6 pt-10">
-              <div className="flex flex-col w-full min-w-0">
-                <label className='text-[#aaaaa7] font-semibold'>Amount (₹)*</label>
-                <input
-                  className='border-[1.5px] mt-1 h-9 w-full min-w-0 border-[#494945] rounded-lg px-2 focus:outline-none focus:border-blue-600 focus:shadow-[0_0_6px_#3b82f6] font-semibold text-white placeholder-[#686867]'
-                  type="number"
-                  placeholder='0.00'
-                  value={amount}
-                  onChange={(e) => setAmount(e.target.value)} />
-              </div>
-
-              <div className="flex flex-col w-full min-w-0">
-                <label className='text-[#aaaaa7] font-semibold'>Date*</label>
-                <input
-                  className='cursor-pointer border-[1.5px] mt-1 h-9 w-full max-w-full border-[#494945] rounded-lg focus:outline-none focus:border-blue-600 focus:shadow-[0_0_6px_#3b82f6] text-[#686867] focus:text-white'
-                  type="date"
-                  value={date}
-                  onChange={(e) => setDate(e.target.value)} />
-              </div>
-            </div>
-
-            <div className="flex flex-col px-6 mt-8">
-              <label className='text-[#aaaaa7] font-semibold' htmlFor="amount">Title / description *</label>
-              <input
-                className='border-[1.5px] mt-1 h-9 w-full border-[#494945] rounded-lg pl-2 focus:outline-none focus:border-blue-600 focus:shadow-[0_0_6px_#3b82f6] text-white placeholder:text-[#686867]'
-                type="text"
-                placeholder='e.g. Salary deposited'
-                value={title}
-                onChange={(e) => setTitle(e.target.value)} />
-            </div>
-
-            
-
-            {/* Payment section */}
-
-            <section className="payment px-6 mt-8">
-              <div className="flex gap-6 w-full">
-                <div className="flex w-full flex-col">
-                  <label className='text-[#aaaaa7] font-semibold whitespace-nowrap'>Payment Method</label>
-                  <select
-                    className='bg-[#30302e] border-[1.5px] mt-1 h-9 w-full min-w-0 border-[#494945] rounded-lg px-2 focus:outline-none focus:border-blue-600 focus:shadow-[0_0_6px_#3b82f6] font-semibold text-white placeholder-[#686867] cursor-pointer'
-                    value={payment}
-                    onChange={(e) => setPayment(e.target.value)}>
-                    <option value="UPI">UPI</option>
-                    <option value="Cash">Cash</option>
-                    <option value="Bank transfer">Bank transfer</option>
-                    <option value="Credit card">Credit card</option>
-                    <option value="Debit card">Debit card</option>
-                    <option value="Net Banking">Net Banking</option> cursor-pointer
-                  </select>
+              <div className="Amount flex justify-center gap-6 px-6 pt-10">
+                <div className="flex flex-col w-full min-w-0">
+                  <label className='text-[#aaaaa7] font-semibold'>Amount (₹)*</label>
+                  <input
+                    className='border-[1.5px] mt-1 h-9 w-full min-w-0 border-[#494945] rounded-lg px-2 focus:outline-none focus:border-blue-600 focus:shadow-[0_0_6px_#3b82f6] font-semibold text-white placeholder-[#686867]'
+                    type="number"
+                    placeholder='0.00'
+                    value={amount}
+                    onChange={(e) => setAmount(e.target.value)} />
                 </div>
 
-                <div className="flex w-full flex-col">
-                  <label className='text-[#aaaaa7] font-semibold'>Wallet/account</label>
-                  <select
-                    className='bg-[#30302e] border-[1.5px] mt-1 h-9 w-full min-w-0 border-[#494945] rounded-lg px-2 focus:outline-none focus:border-blue-600 focus:shadow-[0_0_6px_#3b82f6] font-semibold text-white placeholder-[#686867] cursor-pointer'
-                    value={account}
-                    onChange={(e) => setAccount(e.target.value)}>
-                    <option value="Main account">Main account</option>
-                    <option value="Savings account">Savings account</option>
-                    <option value="Salary account">Salary account</option>
-                    <option value="Other">Other</option>
-                  </select>
+                <div className="flex flex-col w-full min-w-0">
+                  <label className='text-[#aaaaa7] font-semibold'>Date*</label>
+                  <input
+                    className='cursor-pointer border-[1.5px] mt-1 h-9 w-full max-w-full border-[#494945] rounded-lg focus:outline-none focus:border-blue-600 focus:shadow-[0_0_6px_#3b82f6] text-[#686867] focus:text-white'
+                    type="date"
+                    value={date}
+                    onChange={(e) => setDate(e.target.value)} />
                 </div>
               </div>
-            </section>
 
-            <div className="flex flex-col px-6 mt-8">
-              <label className='text-[#aaaaa7] font-semibold' htmlFor="amount">Notes (optional)</label>
-              <input
-                className='border-[1.5px] mt-1 h-9 w-full border-[#494945] rounded-lg pl-2 focus:outline-none focus:border-blue-600 focus:shadow-[0_0_6px_#3b82f6] text-white placeholder:text-[#686867]'
-                type="text"
-                placeholder='Any extra detail'
-                value={notes}
-                onChange={(e) => setNotes(e.target.value)} />
+              <div className="flex flex-col px-6 mt-8">
+                <label className='text-[#aaaaa7] font-semibold' htmlFor="amount">Title / description *</label>
+                <input
+                  className='border-[1.5px] mt-1 h-9 w-full border-[#494945] rounded-lg pl-2 focus:outline-none focus:border-blue-600 focus:shadow-[0_0_6px_#3b82f6] text-white placeholder:text-[#686867]'
+                  type="text"
+                  placeholder='e.g. Salary deposited'
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)} />
+              </div>
+
+
+
+              {/* Payment section */}
+
+              <section className="payment px-6 mt-8">
+                <div className="flex gap-6 w-full">
+                  <div className="flex w-full flex-col">
+                    <label className='text-[#aaaaa7] font-semibold whitespace-nowrap'>Payment Method</label>
+                    <select
+                      className='bg-[#30302e] border-[1.5px] mt-1 h-9 w-full min-w-0 border-[#494945] rounded-lg px-2 focus:outline-none focus:border-blue-600 focus:shadow-[0_0_6px_#3b82f6] font-semibold text-white placeholder-[#686867] cursor-pointer'
+                      value={payment}
+                      onChange={(e) => setPayment(e.target.value)}>
+                      <option value="UPI">UPI</option>
+                      <option value="Cash">Cash</option>
+                      <option value="Bank transfer">Bank transfer</option>
+                      <option value="Credit card">Credit card</option>
+                      <option value="Debit card">Debit card</option>
+                      <option value="Net Banking">Net Banking</option> cursor-pointer
+                    </select>
+                  </div>
+
+                  <div className="flex w-full flex-col">
+                    <label className='text-[#aaaaa7] font-semibold'>Wallet/account</label>
+                    <select
+                      className='bg-[#30302e] border-[1.5px] mt-1 h-9 w-full min-w-0 border-[#494945] rounded-lg px-2 focus:outline-none focus:border-blue-600 focus:shadow-[0_0_6px_#3b82f6] font-semibold text-white placeholder-[#686867] cursor-pointer'
+                      value={account}
+                      onChange={(e) => setAccount(e.target.value)}>
+                      <option value="Main account">Main account</option>
+                      <option value="Savings account">Savings account</option>
+                      <option value="Salary account">Salary account</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
+                </div>
+              </section>
+
+              <div className="flex flex-col px-6 mt-8">
+                <label className='text-[#aaaaa7] font-semibold' htmlFor="amount">Notes (optional)</label>
+                <input
+                  className='border-[1.5px] mt-1 h-9 w-full border-[#494945] rounded-lg pl-2 focus:outline-none focus:border-blue-600 focus:shadow-[0_0_6px_#3b82f6] text-white placeholder:text-[#686867]'
+                  type="text"
+                  placeholder='Any extra detail'
+                  value={notes}
+                  onChange={(e) => setNotes(e.target.value)} />
+              </div>
+
+              <div className="flex gap-6 justify-center px-6 mt-10">
+                <button
+                  className='w-1/5 border-[1.5px] rounded-lg font-semibold text-white h-10 border-[#80807a] hover:bg-[#272726] duration-300 cursor-pointer'
+                  onClick={() => { setAmount(""), setDate(""), setTitle(""), setPayment("UPI"), setAccount("Main account"), setNotes("") }}>
+                  Cancel
+                </button>
+
+                <button
+                  className='w-1/2 border-[1.5px] rounded-lg font-semibold text-white h-10 border-[#80807a] hover:bg-[#272726] duration-300 cursor-pointer'
+                  onClick={() => { handleIncomeSubmit(), console.log(amount), console.log(date), console.log(title), console.log(payment), console.log(account), console.log(notes), console.log(category), console.log(transType) }}>
+                  Save income →
+                </button>
+              </div>
             </div>
-
-            <div className="flex gap-6 justify-center px-6 mt-10">
-              <button
-                className='w-1/5 border-[1.5px] rounded-lg font-semibold text-white h-10 border-[#80807a] hover:bg-[#272726] duration-300 cursor-pointer'
-                onClick={() => { setCategory("Food"), setSelectedButton("Food"), setTransType("expense"), setAmount(""), setDate(""), setTitle(""), setPayment("UPI"), setAccount("Main account"), setNotes("") }}>
-                Cancel
-              </button>
-
-              <button
-                className='w-1/2 border-[1.5px] rounded-lg font-semibold text-white h-10 border-[#80807a] hover:bg-[#272726] duration-300 cursor-pointer'
-                onClick={() => { setAmount(amount), setDate(date), setTitle(title), setPayment(payment), setAccount(account), setNotes(notes), console.log(amount), handleSubmit(), console.log(date), console.log(title), console.log(payment), console.log(account), console.log(notes), console.log(category), console.log(transType) }}>
-                Save income →
-              </button>
-            </div>
-          </div>
           )}
-          
+
 
         </div>
       </div>

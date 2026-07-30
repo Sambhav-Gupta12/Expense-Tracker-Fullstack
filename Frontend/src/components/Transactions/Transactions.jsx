@@ -2,6 +2,7 @@ import React from 'react'
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { useExpense } from "../../context/ExpenseContext";
+import { useIncome } from '../../context/IncomeContext';
 import TransactionCard from './TransactionCard';
 
 function Transactions() {
@@ -23,16 +24,43 @@ function Transactions() {
   const [showAll, setShowAll] = useState(false)
 
   const { expenses } = useExpense();
+  const { incomes } = useIncome()
 
-  const totalEntries = expenses.length;
+  const totalEntries = expenses.length + incomes.length;
 
   const entry = totalEntries === 1 ? "entry" : "entries";
 
+  const allTransactions = [
+    ...expenses.map(expense => ({
+      ...expense,
+      transType: "expense"
+    })),
+
+    ...incomes.map(income => ({
+      ...income,
+      transType: "income",
+      category: "Income",
+      categoryIcon: "💰"
+    }))
+  ];
+
+  const transactions = allTransactions.sort(
+    (a, b) => new Date(b.date) - new Date(a.date)
+  );
+
+  // const years = [
+  //   ...new Set(
+  //     transactions
+  //       .map(exp => exp.date?.split("-")[0])
+  //       .filter(Boolean)
+  //   )
+  // ].sort((a, b) => Number(b) - Number(a));
+
   const years = [
     ...new Set(
-      expenses
-        .map(exp => exp.date?.split("-")[2])
-        .filter(Boolean)
+      transactions.map(transaction =>
+        String(new Date(transaction.date).getFullYear())
+      )
     )
   ].sort((a, b) => Number(b) - Number(a));
 
@@ -40,23 +68,32 @@ function Transactions() {
   //   ? totalEntries
   //   : Math.min(totalEntries, 6);
 
-  const filteredExpenses = expenses.filter((expense) => {
+  const filteredTransactions = transactions.filter((transaction) => {
     const categoryMatch =
       cat === "All categories" ||
-      expense.category === cat;
+      transaction.category === cat;
 
     const typeMatch =
       type === "All" ||
-      expense.transType?.toLowerCase() === type.toLowerCase();
+      transaction.transType?.toLowerCase() === type.toLowerCase();
 
     const titleMatch =
-      (expense.title || "").toLowerCase().includes(search.toLowerCase()) ||
-      (expense.notes || "").toLowerCase().includes(search.toLowerCase()) ||
-      (expense.category || "").toLowerCase().includes(search.toLowerCase()) ||
-      (expense.payment || "").toLowerCase().includes(search.toLowerCase());
+      (transaction.title || "").toLowerCase().includes(search.toLowerCase()) ||
 
-    const [day, monthPart, yearPart] =
-      (expense.date || "").split("-");
+      (transaction.note || "").toLowerCase().includes(search.toLowerCase()) ||
+
+      (transaction.notes || "").toLowerCase().includes(search.toLowerCase()) ||
+
+      (transaction.category || "").toLowerCase().includes(search.toLowerCase()) ||
+
+      (transaction.paymentMethod || "").toLowerCase().includes(search.toLowerCase()) ||
+
+      (transaction.payment || "").toLowerCase().includes(search.toLowerCase());
+
+    const dateObj = new Date(transaction.date);
+
+    const monthPart = String(dateObj.getMonth() + 1).padStart(2, "0");
+    const yearPart = String(dateObj.getFullYear());
 
     const monthMatch =
       month === "All" ||
@@ -69,7 +106,7 @@ function Transactions() {
     return categoryMatch && typeMatch && titleMatch && monthMatch && yearMatch;
   });
 
-  const filteredCount = filteredExpenses.length;
+  const filteredCount = filteredTransactions.length;
 
   const count = showAll
     ? filteredCount
@@ -197,7 +234,7 @@ function Transactions() {
           <div className='text-[#9d9d99]'>Amount</div>
           <div className='text-[#9d9d99]'>Date</div>
         </div>
-        <TransactionCard showAll={showAll} expenses={filteredExpenses} />
+        <TransactionCard showAll={showAll} transactions={filteredTransactions} />
         <div className="flex rounded-b-lg justify-between px-10 py-2 ">
           <div className='text-[#9d9d99] mt-1.5'>Showing {count} of {totalEntries}</div>
           <button

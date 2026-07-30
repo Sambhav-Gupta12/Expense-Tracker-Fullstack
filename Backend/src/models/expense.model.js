@@ -17,8 +17,8 @@ const expenseSchema = new Schema(
         },
         category: {
             type: String,
-            enum: CATEGORIES,
-            required: true
+            required: true,
+            trim: true
         },
         paymentMethod: {
             type: String,
@@ -35,6 +35,10 @@ const expenseSchema = new Schema(
             index: true
         },
         note: {
+            type: String,
+            trim: true
+        },
+        categoryIcon: {
             type: String,
             trim: true
         },

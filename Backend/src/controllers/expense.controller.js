@@ -13,7 +13,7 @@ const createExpense = asyncHandler(async (req, res) => {
     // Save the data in DB
     // give response
 
-    const { title, amount, category, paymentMethod, account, date, note } = req.body
+    const { title, amount, category, paymentMethod, account, date, note, categoryIcon } = req.body
 
     if (
         !title?.trim() ||
@@ -38,6 +38,7 @@ const createExpense = asyncHandler(async (req, res) => {
             account,
             date,
             note: note || "",
+            categoryIcon,
             owner: req.user._id
         }
     )
