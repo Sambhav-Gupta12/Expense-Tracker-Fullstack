@@ -4,6 +4,7 @@ import CategoryBudget from './CategoryBudget'
 import AddCategoryBudget from './AddCategoryBudget';
 import AddBudget from './AddBudget';
 import { useBudget } from "../../context/BudgetContext";
+import toast from "react-hot-toast";
 
 function Budgets() {
   const { expenses } = useExpense();
@@ -22,13 +23,7 @@ function Budgets() {
   const currentDate = new Date();
 
   const filteredExpenses = expenses.filter((expense) => {
-    const [day, month, year] = expense.date.split("-");
-
-    const expenseDate = new Date(
-      Number(year),
-      Number(month) - 1,
-      Number(day)
-    );
+    const expenseDate = new Date(expense.date);
 
     if (months === "This Month") {
       return (
@@ -51,13 +46,41 @@ function Budgets() {
     }
 
     if (months === "This year") {
-      return (
-        expenseDate.getFullYear() === currentDate.getFullYear()
-      );
+      return expenseDate.getFullYear() === currentDate.getFullYear();
     }
 
     return true;
   });
+
+  let selectedMonth;
+  let selectedYear;
+
+  if (months === "This Month") {
+    selectedMonth = currentDate.getMonth() + 1
+    selectedYear = currentDate.getFullYear();
+  }
+
+  if (months === "Last Month") {
+    const last = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth() - 1
+    );
+
+    selectedMonth = last.getMonth() + 1
+    selectedYear = last.getFullYear();
+  }
+
+  console.log("Budget:", budget);
+  console.log("Selected Month:", selectedMonth);
+  console.log("Selected Year:", selectedYear);
+
+  const currentBudget = budget.find(
+    (bud) =>
+      bud.month === selectedMonth &&
+      bud.year === selectedYear
+  );
+
+  const budgetAmount = currentBudget?.monthlyBudget || 0;
 
   const totalSpent = filteredExpenses
     .filter(exp => exp.transType !== "income")
@@ -66,7 +89,7 @@ function Budgets() {
       0
     );
 
-  const remaining = budget - totalSpent;
+  const remaining = budgetAmount - totalSpent;
 
   return (
     <div className='w-full h-full rounded-r-2xl bg-[#30302e] pt-4 pb-17 md:py-4 px-10 overflow-scroll no-scrollbar'>
@@ -84,7 +107,6 @@ function Budgets() {
           >
             <option>This Month</option>
             <option>Last Month</option>
-            <option>This year</option>
           </select>
 
           <button
@@ -103,7 +125,7 @@ function Budgets() {
       <div className="grid grid-cols-1 md:grid-cols-3 md:mx-45 gap-4 mt-6">
         <div className='flex flex-col bg-[#262624] border-[1.5px] border-[#494945] rounded-lg py-4 px-4'>
           <div className='font-semibold text-[15px] text-[#cbcac4]'>Total budget</div>
-          <div className="total text-white text-[25px] font-semibold">₹ {budget}</div>
+          <div className="total text-white text-[25px] font-semibold">₹ {budgetAmount}</div>
         </div>
 
         <div className='flex flex-col bg-[#262624] border-[1.5px] border-[#494945] rounded-lg py-4 px-4'>

@@ -1,6 +1,7 @@
 import express from "express"
 import cookieParser from "cookie-parser"
 import cors from "cors"
+import { errorHandler } from "./middlewares/error.middleware.js";
 
 const app = express()
 
@@ -26,6 +27,9 @@ app.use("/api/v1/users", userRouter)
 app.use("/api/v1/expenses", expenseRouter)
 app.use("/api/v1/incomes", incomeRouter)
 app.use("/api/v1/budgets", budgetRouter)
-app.use("api/v1/category-budgets", catBudgetRouter)
+app.use("/api/v1/category-budgets", catBudgetRouter)
+
+// LAST middleware
+app.use(errorHandler);
 
 export { app }

@@ -16,6 +16,7 @@ import Auth from './components/landingPage/Auth.jsx'
 import ProtectedRoute from './components/ProtectedRoutes/ProtectedRoute.jsx'
 import { AuthProvider } from './context/AuthContext.jsx'
 import { IncomeProvider } from './context/IncomeContext.jsx'
+import { Toaster } from "react-hot-toast";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -52,6 +53,34 @@ createRoot(document.getElementById('root')).render(
         <ExpenseProvider>
           <BudgetProvider>
             <CatBudProvider>
+
+              <Toaster
+                position="top-right"
+                toastOptions={{
+                  duration: 3000,
+
+                  style: {
+                    background: "#262624",
+                    color: "#fff",
+                    border: "1px solid #494945",
+                  },
+
+                  success: {
+                    iconTheme: {
+                      primary: "#22c55e",
+                      secondary: "#fff",
+                    },
+                  },
+
+                  error: {
+                    iconTheme: {
+                      primary: "#ef4444",
+                      secondary: "#fff",
+                    },
+                  },
+                }}
+              />
+
               <RouterProvider router={router} />
             </CatBudProvider>
           </BudgetProvider>

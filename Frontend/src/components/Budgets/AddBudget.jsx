@@ -1,10 +1,80 @@
 import React from 'react'
 import { useState } from 'react';
 import { useBudget } from "../../context/BudgetContext";
+import axios from 'axios';
+import toast from "react-hot-toast";
 
 function AddBudget({ onClose }) {
+
+    const currentYear = new Date().getFullYear();
+
+    const years = [
+        currentYear - 1,
+        currentYear,
+        currentYear + 1,
+    ];
+
     const { budget, setBudget } = useBudget();
     const [inputValue, setInputValue] = useState(budget);
+    const [month, setMonth] = useState(String(new Date().getMonth() + 1).padStart(2, "0"))
+    const [year, setYear] = useState(currentYear)
+
+    const [error, setError] = useState("");
+    const [success, setSuccess] = useState("");
+
+    const handleBudgetSubmit = async () => {
+
+        setError("");
+        setSuccess("");
+
+        if (!inputValue.trim()) {
+            setError("Amount is required.");
+            return;
+        }
+
+        if (Number(inputValue) <= 0) {
+            setError("Enter a valid amount.");
+            return;
+        }
+
+
+
+        try {
+
+            const newBudget = {
+                monthlyBudget: Number(inputValue),
+                month,
+                year
+            }
+
+            console.log(newBudget);
+
+            const response = await axios.post("http://localhost:8000/api/v1/budgets/add-budget",
+                newBudget,
+                {
+                    withCredentials: true,
+                }
+            )
+
+            setBudget(prev => [...prev, response.data.data]);
+
+            setInputValue("")
+
+            toast.success("Budget added successfully!");
+
+                onClose();
+
+        } catch (error) {
+            console.log(error);
+            console.log(error.response);
+            console.log(error.response?.data);
+
+            setError(
+                error.response?.data?.message ||
+                "Unable to add budget."
+            );
+        }
+    }
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
@@ -26,15 +96,58 @@ function AddBudget({ onClose }) {
                     </button>
                 </div>
 
+                {error && (
+                    <div className="mx-4 mt-3 rounded-lg bg-red-500/15 border border-red-500 px-4 py-2 text-red-400">
+                        {error}
+                    </div>
+                )}
+
+                {success && (
+                    <div className="mx-4 mt-3 rounded-lg bg-green-500/15 border border-green-500 px-4 py-2 text-green-400">
+                        {success}
+                    </div>
+                )}
+
                 <input
                     type="number"
                     placeholder="Enter amount"
-                    className="w-full p-2 rounded-lg bg-white/5 border border-white/10 text-white mb-4"
+                    className="w-full mt-3 p-2 rounded-lg bg-white/5 border border-white/10 text-white mb-4"
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
                 />
 
-                <div className="flex justify-end gap-2">
+                <select
+                    className="w-full md:flex-1 bg-[#262624] border-[1.5px] h-10 px-3 cursor-pointer border-[#494945] rounded-lg focus:outline-none focus:border-blue-600 focus:shadow-[0_0_6px_#3b82f6] font-semibold text-[#b7b5a7]"
+                    value={month}
+                    onChange={(e) => setMonth(e.target.value)}
+                >
+                    <option value="01">January</option>
+                    <option value="02">February</option>
+                    <option value="03">March</option>
+                    <option value="04">April</option>
+                    <option value="05">May</option>
+                    <option value="06">June</option>
+                    <option value="07">July</option>
+                    <option value="08">August</option>
+                    <option value="09">September</option>
+                    <option value="10">October</option>
+                    <option value="11">November</option>
+                    <option value="12">December</option>
+                </select>
+
+                <select
+                    className="w-full md:flex-1 bg-[#262624] border-[1.5px] h-10 px-3 mt-4 cursor-pointer border-[#494945] rounded-lg focus:outline-none focus:border-blue-600 focus:shadow-[0_0_6px_#3b82f6] font-semibold text-[#b7b5a7]"
+                    value={year}
+                    onChange={(e) => setYear(Number(e.target.value))}
+                >
+                    {years.map((yr) => (
+                        <option key={yr} value={yr}>
+                            {yr}
+                        </option>
+                    ))}
+                </select>
+
+                <div className="flex justify-end gap-2 mt-4">
                     <button
                         onClick={onClose}
                         className="px-3 py-1 bg-white/10 rounded-lg text-white cursor-pointer hover:bg-white/20 duration-300"
@@ -43,11 +156,7 @@ function AddBudget({ onClose }) {
                     </button>
 
                     <button
-                        onClick={() => {
-                            if (!inputValue) return;
-                            setBudget(Number(inputValue));
-                            onClose();
-                        }}
+                        onClick={handleBudgetSubmit}
                         className="px-3 py-1 bg-blue-600 rounded-lg text-white cursor-pointer hover:bg-blue-500 duration-300"
                     >
                         Save Budget
