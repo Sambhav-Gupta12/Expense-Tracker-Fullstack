@@ -24,7 +24,7 @@ function Transactions() {
   const [showAll, setShowAll] = useState(false)
 
   const { expenses } = useExpense();
-  const { incomes } = useIncome()
+  const { incomes } = useIncome();
 
   const totalEntries = expenses.length + incomes.length;
 
@@ -44,8 +44,8 @@ function Transactions() {
     }))
   ];
 
-  const transactions = allTransactions.sort(
-    (a, b) => new Date(b.date) - new Date(a.date)
+  const transactions = [...allTransactions].sort(
+    (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
   );
 
   // const years = [

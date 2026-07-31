@@ -13,9 +13,9 @@ import groupExpensesByCategory from "../../utils/groupExpensesByCategory";
 import '../../styles/charts.css'
 
 
-function ExpensePieChart({ expenses }) {
+function ExpensePieChart({ transactions }) {
 
-  const expenseOnly = expenses.filter(
+  const expenseOnly = transactions.filter(
     exp => exp.transType !== "income"
   );
 

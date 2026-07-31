@@ -2,6 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 import { NavLink } from "react-router-dom";
 import { useExpense } from "../../context/ExpenseContext";
+import { useIncome } from '../../context/IncomeContext';
 import { useBudget } from "../../context/BudgetContext";
 import SummaryCards from './SummaryCards'
 import ExpenseLineChart from '../Charts/ExpenseLineChart'
@@ -13,6 +14,7 @@ function Dashboard() {
 
   const [months, setMonths] = useState("This Month")
   const { expenses } = useExpense();
+  const { incomes } = useIncome();
   const { budget } = useBudget();
 
   const currentMonth = new Date().toLocaleString("en-US", {
@@ -23,14 +25,26 @@ function Dashboard() {
 
   const currentDate = new Date();
 
-  const filteredExpenses = expenses.filter((expense) => {
-    const [day, month, year] = expense.date.split("-");
+  const allTransactions = [
+    ...expenses.map(expense => ({
+      ...expense,
+      transType: "expense"
+    })),
 
-    const expenseDate = new Date(
-      Number(year),
-      Number(month) - 1,
-      Number(day)
-    );
+    ...incomes.map(income => ({
+      ...income,
+      transType: "income",
+      category: "Income",
+      categoryIcon: "💰"
+    }))
+  ];
+
+  const transactions = [...allTransactions].sort(
+    (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+  );
+
+  const filteredTransactions = transactions.filter((transaction) => {
+    const expenseDate = new Date(transaction.date);
 
     if (months === "This Month") {
       return (
@@ -53,17 +67,18 @@ function Dashboard() {
     }
 
     if (months === "This year") {
-      return (
-        expenseDate.getFullYear() === currentDate.getFullYear()
-      );
+      return expenseDate.getFullYear() === currentDate.getFullYear();
     }
 
     return true;
   });
 
-  const totalEntries = filteredExpenses.length;
+  console.log(filteredTransactions);
 
-  const totalSpent = filteredExpenses
+
+  const totalEntries = filteredTransactions.length;
+
+  const totalSpent = filteredTransactions
     .filter(exp => exp.transType !== "income")
     .reduce(
       (sum, expense) => sum + Number(expense.amount),
@@ -103,10 +118,10 @@ function Dashboard() {
       <SummaryCards totalSpent={totalSpent} remainingBudget={remaining} transactions={totalEntries} />
       <div className="flex flex-col gap-3">
         <div className="flex flex-col md:flex-row gap-3 justify-between">
-          <ExpenseBarChart expenses={filteredExpenses} />
-          <ExpensePieChart expenses={filteredExpenses} />
+          <ExpenseBarChart transactions={filteredTransactions} />
+          <ExpensePieChart transactions={filteredTransactions} />
         </div>
-        <ExpenseLineChart expenses={filteredExpenses} />
+        <ExpenseLineChart transactions={filteredTransactions} />
       </div>
 
       <div className="rounded-lg bg-[#262624] mt-5 mb-5 border-[1.5px] border-[#494945] ">
@@ -127,7 +142,7 @@ function Dashboard() {
           <div className='text-[#9d9d99]'>Amount</div>
           <div className='text-[#9d9d99]'>Date</div>
         </div>
-        <RecentTransaction expenses={filteredExpenses} />
+        <RecentTransaction transactions={filteredTransactions} />
       </div>
     </div>
   )

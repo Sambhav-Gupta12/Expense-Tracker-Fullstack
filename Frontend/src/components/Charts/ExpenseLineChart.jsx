@@ -6,9 +6,9 @@ import { useExpense } from "../../context/ExpenseContext";
 import '../../styles/charts.css'
 import groupExpensesByDate from "../../utils/groupExpenseByDate";
 
-function ExpenseLineChart({ expenses }) {
+function ExpenseLineChart({ transactions }) {
 
-  const expenseOnly = expenses.filter(
+  const expenseOnly = transactions.filter(
     exp => exp.transType !== "income"
   );
 

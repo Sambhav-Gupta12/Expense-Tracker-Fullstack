@@ -3,7 +3,7 @@ import { useExpense } from '../../context/ExpenseContext'
 
 function TransactionCard({ showAll, transactions }) {
 
-    const AllTransactions = [...transactions].reverse();
+    const AllTransactions = [...transactions];
 
     const displayedTransactions = showAll
         ? AllTransactions
@@ -12,7 +12,7 @@ function TransactionCard({ showAll, transactions }) {
     return (
         <>
             {displayedTransactions.map((transaction) => (
-                <div key={transaction.id}>
+                <div key={transaction._id}>
 
                     {/* Desktop */}
                     <div

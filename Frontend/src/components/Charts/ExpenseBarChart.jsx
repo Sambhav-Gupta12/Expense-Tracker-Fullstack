@@ -7,9 +7,9 @@ import formatDate from '../../utils/formatDate';
 import { useExpense } from '../../context/ExpenseContext';
 import '../../styles/charts.css'
 
-function ExpenseBarChart({ expenses }) {
+function ExpenseBarChart({ transactions }) {
 
-    const expenseOnly = expenses.filter(
+    const expenseOnly = transactions.filter(
         exp => exp.transType !== "income"
     );
 
