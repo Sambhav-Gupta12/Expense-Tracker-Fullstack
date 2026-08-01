@@ -4,13 +4,16 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import { useAuth } from '../../context/AuthContext.jsx';
+import { useExpense } from '../../context/ExpenseContext.jsx';
 import ConfirmModal from '../confirmModal/ConfirmModal.jsx';
 
 function ProfileCard() {
 
     const [showLogoutModal, setShowLogoutModal] = useState(false);
 
-    const { setUser } = useAuth();
+    const { expenses } = useExpense();
+
+    const { user, setUser } = useAuth();
 
     const navigate = useNavigate();
 
@@ -30,23 +33,45 @@ function ProfileCard() {
         } catch (error) {
             console.log(error);
         }
-
-
     }
+
+    const getInitials = (fullName) => {
+        return fullName
+            .split(" ")
+            .map(name => name[0])
+            .join("")
+            .toUpperCase();
+    };
+
+    const joinedDate = new Date(user.createdAt).toLocaleString("en-US", {
+        month: "short",
+        year: "numeric",
+    });
+
+    const transactions = expenses.length;
+
     return (
         <div className="bg-[#262624] border border-[#494945] rounded-2xl p-6">
 
             <div className="flex flex-col items-center">
-                <div className="w-24 h-24 rounded-full bg-[#e5e5f4] flex items-center justify-center text-4xl text-indigo-600">
-                    SG
-                </div>
+                {user.avatar ? (
+                    <img
+                        src={user.avatar}
+                        alt={user.fullName}
+                        className="w-full h-full rounded-full object-cover"
+                    />
+                ) : (
+                    <div className="w-24 h-24 rounded-full bg-[#e5e5f4] flex items-center justify-center text-4xl text-indigo-600">
+                        {getInitials(user.fullName)}
+                    </div>
+                )}
 
                 <h2 className="text-white text-2xl font-semibold mt-4">
-                    Sambhav Gupta
+                    {user.fullName}
                 </h2>
 
                 <p className="text-[#b0b0ac] mt-1">
-                    sambhavgupt12@gmail.com
+                    {user.email}
                 </p>
 
                 <span className="mt-3 px-4 py-1 rounded-full bg-indigo-600 text-white text-sm">
@@ -57,8 +82,8 @@ function ProfileCard() {
             <div className="border-t border-[#494945] my-6"></div>
 
             <div className="space-y-4">
-                <Row label="Member since" value="Jan 2025" />
-                <Row label="Transactions" value="482" />
+                <Row label="Member since" value={joinedDate} />
+                <Row label="Transactions" value={transactions} />
                 <Row label="Total tracked" value="₹4.2L" />
                 <Row label="Avg savings" value="26%" />
             </div>

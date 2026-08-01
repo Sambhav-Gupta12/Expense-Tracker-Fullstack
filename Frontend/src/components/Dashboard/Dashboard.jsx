@@ -75,6 +75,44 @@ function Dashboard() {
 
   console.log(filteredTransactions);
 
+  let selectedMonth;
+  let selectedYear;
+
+  if (months === "This Month") {
+    selectedMonth = currentDate.getMonth() + 1;
+    selectedYear = currentDate.getFullYear();
+  }
+
+  if (months === "Last Month") {
+    const last = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth() - 1
+    );
+
+    selectedMonth = last.getMonth() + 1;
+    selectedYear = last.getFullYear();
+  }
+
+  if (months === "This year") {
+    selectedMonth = null;
+    selectedYear = currentDate.getFullYear();
+  }
+
+  let budgetAmount = 0;
+
+  if (months === "This year") {
+    budgetAmount = budget
+      .filter(bud => Number(bud.year) === selectedYear)
+      .reduce((sum, bud) => sum + Number(bud.monthlyBudget), 0);
+  } else {
+    const currentBudget = budget.find(
+      bud =>
+        Number(bud.month) === Number(selectedMonth) &&
+        Number(bud.year) === Number(selectedYear)
+    );
+
+    budgetAmount = currentBudget?.monthlyBudget || 0;
+  }
 
   const totalEntries = filteredTransactions.length;
 
@@ -85,7 +123,7 @@ function Dashboard() {
       0
     );
 
-  const remaining = budget - totalSpent;
+  const remaining = budgetAmount - totalSpent;
 
   return (
     <div className='w-full h-full rounded-r-2xl bg-[#30302e] overflow-x-scroll no-scrollbar px-4 sm:px-8 md:px-12 lg:px-16 pt-4 pb-10 md:pb-0'>
