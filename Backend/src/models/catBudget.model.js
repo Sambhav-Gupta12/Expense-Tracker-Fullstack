@@ -10,6 +10,9 @@ const catBudgetSchema = new Schema(
             type: String,
             required: true
         },
+        categoryIcon: {
+            type: String,
+        },
         month: {
             type: Number,
             required: true

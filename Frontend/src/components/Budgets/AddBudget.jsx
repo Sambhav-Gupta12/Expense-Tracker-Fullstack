@@ -37,8 +37,6 @@ function AddBudget({ onClose }) {
             return;
         }
 
-
-
         try {
 
             const newBudget = {
@@ -62,7 +60,7 @@ function AddBudget({ onClose }) {
 
             toast.success("Budget added successfully!");
 
-                onClose();
+            onClose();
 
         } catch (error) {
             console.log(error);

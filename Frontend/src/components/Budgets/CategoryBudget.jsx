@@ -3,24 +3,53 @@ import { useState } from 'react';
 import { useExpense } from "../../context/ExpenseContext";
 import AddCategoryBudget from './AddCategoryBudget';
 import { useCatBudget } from "../../context/CatBudContext";
+import axios from 'axios';
+import toast from 'react-hot-toast';
 
 
-function CategoryBudget({ expenses }) {
+function CategoryBudget({ expenses, month, year }) {
 
-  const { catBudgets, deleteCategoryBudget } = useCatBudget();
+  const { catBudgets, setCatBudgets, deleteCategoryBudget } = useCatBudget();
   const [showModal, setShowModal] = useState(false)
+
+  const handleCatBudDeleteSubmit = async (catBudgetId) => {
+
+    try {
+
+      const response = await axios.delete(`http://localhost:8000/api/v1/category-budgets/delete-category-budget/${catBudgetId}`,
+        {
+          withCredentials: true,
+        }
+      )
+
+      setCatBudgets(prev =>
+        prev.filter(item => item._id !== catBudgetId)
+      );
+
+      toast.success("Category budget deleted successfully!");
+
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Unable to delete budget.")
+    }
+  }
+
+  const filteredCatBudgets = catBudgets.filter(
+    (item) =>
+      Number(item.month) === Number(month) &&
+      Number(item.year) === Number(year)
+  );
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:px-8">
 
-      {catBudgets.map((item) => {
+      {filteredCatBudgets.map((item) => {
 
         const spent = expenses
           .filter(exp => exp.category === item.category && exp.transType !== "income")
           .reduce((sum, exp) => sum + Number(exp.amount), 0);
 
         const progressWidth = Math.min(
-          (spent / item.budget) * 100,
+          (spent / item.amount) * 100,
           100
         );
 
@@ -49,7 +78,7 @@ function CategoryBudget({ expenses }) {
               </div>
 
               <button
-                onClick={() => deleteCategoryBudget(item.id)}
+                onClick={() => handleCatBudDeleteSubmit(item._id)}
                 className="text-gray-400 hover:text-red-500 cursor-pointer"
               >
                 ✕
@@ -58,7 +87,7 @@ function CategoryBudget({ expenses }) {
 
             <div className="flex justify-between mt-1">
               <p className="text-gray-400">
-                ₹{spent} of ₹{item.budget}
+                ₹{spent} of ₹{item.amount}
               </p>
 
               <div className="rounded-full text-sm font-semibold bg-gray-200 px-3" style={{ color: barColor }}>{progress} %</div>
@@ -72,7 +101,7 @@ function CategoryBudget({ expenses }) {
             </div>
 
             <p className="text-green-400" style={{ color: barColor }}>
-              ₹{item.budget - spent} left
+              ₹{item.amount - spent} left
             </p>
           </div>
         );
@@ -88,7 +117,11 @@ function CategoryBudget({ expenses }) {
         </button>
 
         {showModal && (
-          <AddCategoryBudget onClose={() => setShowModal(false)} />
+          <AddCategoryBudget
+            month={month}
+            year={year}
+            onClose={() => setShowModal(false)}
+          />
         )}
       </div>
     </div>

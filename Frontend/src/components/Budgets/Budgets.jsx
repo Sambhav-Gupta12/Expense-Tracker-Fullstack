@@ -12,8 +12,6 @@ function Budgets() {
   const [showModal, setShowModal] = useState(false)
   const [showInput, setShowInput] = useState(false)
 
-  const [months, setMonths] = useState("This Month");
-
   const currentMonth = new Date().toLocaleString("en-US", {
     month: "long",
   });
@@ -22,62 +20,85 @@ function Budgets() {
 
   const currentDate = new Date();
 
+  const [month, setMonth] = useState(
+    String(currentDate.getMonth() + 1).padStart(2, "0")
+  );
+
+  const [year, setYear] = useState(
+    String(currentDate.getFullYear())
+  );
+
+  const years = [
+    currentDate.getFullYear() - 1,
+    currentDate.getFullYear(),
+    currentDate.getFullYear() + 1,
+  ];
+
+  // const filteredExpenses = expenses.filter((expense) => {
+  //   const expenseDate = new Date(expense.date);
+
+  //   if (months === "This Month") {
+  //     return (
+  //       expenseDate.getMonth() === currentDate.getMonth() &&
+  //       expenseDate.getFullYear() === currentDate.getFullYear()
+  //     );
+  //   }
+
+  //   if (months === "Last Month") {
+  //     const lastMonth = new Date(
+  //       currentDate.getFullYear(),
+  //       currentDate.getMonth() - 1,
+  //       1
+  //     );
+
+  //     return (
+  //       expenseDate.getMonth() === lastMonth.getMonth() &&
+  //       expenseDate.getFullYear() === lastMonth.getFullYear()
+  //     );
+  //   }
+
+  //   if (months === "This year") {
+  //     return expenseDate.getFullYear() === currentDate.getFullYear();
+  //   }
+
+  //   return true;
+  // });
+
   const filteredExpenses = expenses.filter((expense) => {
     const expenseDate = new Date(expense.date);
 
-    if (months === "This Month") {
-      return (
-        expenseDate.getMonth() === currentDate.getMonth() &&
-        expenseDate.getFullYear() === currentDate.getFullYear()
-      );
-    }
-
-    if (months === "Last Month") {
-      const lastMonth = new Date(
-        currentDate.getFullYear(),
-        currentDate.getMonth() - 1,
-        1
-      );
-
-      return (
-        expenseDate.getMonth() === lastMonth.getMonth() &&
-        expenseDate.getFullYear() === lastMonth.getFullYear()
-      );
-    }
-
-    if (months === "This year") {
-      return expenseDate.getFullYear() === currentDate.getFullYear();
-    }
-
-    return true;
+    return (
+      expenseDate.getMonth() + 1 === Number(month) &&
+      expenseDate.getFullYear() === Number(year)
+    );
   });
 
-  let selectedMonth;
-  let selectedYear;
+  // let selectedMonth;
+  // let selectedYear;
 
-  if (months === "This Month") {
-    selectedMonth = currentDate.getMonth() + 1
-    selectedYear = currentDate.getFullYear();
-  }
+  // if (months === "This Month") {
+  //   selectedMonth = currentDate.getMonth() + 1
+  //   selectedYear = currentDate.getFullYear();
+  // }
 
-  if (months === "Last Month") {
-    const last = new Date(
-      currentDate.getFullYear(),
-      currentDate.getMonth() - 1
-    );
+  // if (months === "Last Month") {
+  //   const last = new Date(
+  //     currentDate.getFullYear(),
+  //     currentDate.getMonth() - 1
+  //   );
 
-    selectedMonth = last.getMonth() + 1
-    selectedYear = last.getFullYear();
-  }
+  //   selectedMonth = last.getMonth() + 1
+  //   selectedYear = last.getFullYear();
+  // }
 
   console.log("Budget:", budget);
-  console.log("Selected Month:", selectedMonth);
-  console.log("Selected Year:", selectedYear);
+  console.log("Selected Month:", month);
+  console.log("Selected Year:", year);
 
   const currentBudget = budget.find(
     (bud) =>
-      bud.month === selectedMonth &&
-      bud.year === selectedYear
+      Number(bud.month) === Number(month) &&
+      Number(bud.year) === Number(year)
   );
 
   const budgetAmount = currentBudget?.monthlyBudget || 0;
@@ -102,18 +123,40 @@ function Budgets() {
         <div className="flex gap-3 mt-3">
           <select
             className="w-full sm:w-40 bg-[#262624] border-[1.5px] border-[#494945] h-10 px-3 cursor-pointer rounded-lg focus:outline-none focus:border-blue-600 focus:shadow-[0_0_6px_#3b82f6] font-semibold text-[#b7b5a7]"
-            value={months}
-            onChange={(e) => setMonths(e.target.value)}
+            value={month}
+            onChange={(e) => setMonth(e.target.value)}
           >
-            <option>This Month</option>
-            <option>Last Month</option>
+            <option value="01">January</option>
+            <option value="02">February</option>
+            <option value="03">March</option>
+            <option value="04">April</option>
+            <option value="05">May</option>
+            <option value="06">June</option>
+            <option value="07">July</option>
+            <option value="08">August</option>
+            <option value="09">September</option>
+            <option value="10">October</option>
+            <option value="11">November</option>
+            <option value="12">December</option>
+          </select>
+
+          <select
+            className="w-full sm:w-40 bg-[#262624] border-[1.5px] border-[#494945] h-10 px-3 cursor-pointer rounded-lg focus:outline-none focus:border-blue-600 focus:shadow-[0_0_6px_#3b82f6] font-semibold text-[#b7b5a7]"
+            value={year}
+            onChange={(e) => setYear(e.target.value)}
+          >
+            {years.map((yr) => (
+              <option key={yr} value={yr}>
+                {yr}
+              </option>
+            ))}
           </select>
 
           <button
             className='flex w-full justify-center gap-1 border-[1.5px] pt-1.5 px-2 h-10 rounded-lg text-white border-[#65645f] hover:bg-[#212020] duration-300 cursor-pointer'
             onClick={() => setShowInput(true)}
           >
-            + <span className='block'>New budget</span>
+            + <span className='sm:block hidden'>New budget</span>
           </button>
 
           {showInput && (
@@ -140,7 +183,11 @@ function Budgets() {
       </div>
 
       <div className="mt-8 px-2 sm:px-4 md:px-6">
-        <CategoryBudget expenses={filteredExpenses} />
+        <CategoryBudget
+          expenses={filteredExpenses}
+          month={month}
+          year={year}
+        />
       </div>
     </div>
   )

@@ -2,21 +2,23 @@ import React from 'react'
 import { useState } from 'react'
 import { useCatBudget } from "../../context/CatBudContext";
 import { useExpense } from "../../context/ExpenseContext";
+import axios from 'axios';
+import toast from "react-hot-toast";
 
-function AddCategoryBudget({ onClose }) {
+function AddCategoryBudget({ onClose, month, year }) {
 
   const [catType, setCatType] = useState("Exist")
   const [selected, setSelected] = useState("")
   const [selectedIcon, setSelectedIcon] = useState("📦");
 
-  const {
-    addCategoryBudget,
-    catBudgets
-  } = useCatBudget();
-  
+  const { catBudgets, setCatBudgets } = useCatBudget();
+
   const [inputBud, setInputBud] = useState("");
 
   const { expenses } = useExpense();
+
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   const categories = [
     {
@@ -49,11 +51,87 @@ function AddCategoryBudget({ onClose }) {
     },
   ];
 
+  const handleCatBudSubmit = async () => {
+
+    setError("");
+    setSuccess("");
+
+    if (!inputBud.trim()) {
+      toast.error("Amount is required");
+      return;
+    }
+
+    if (Number(inputBud) <= 0) {
+      toast.error("Enter a valid amount");
+      return;
+    }
+
+    if (!selected.trim()) {
+      toast.error("Category is required");
+      return;
+    }
+
+    try {
+
+      const newCatBudget = {
+        amount: Number(inputBud),
+        category: selected,
+        categoryIcon: selectedIcon,
+        month,
+        year
+      }
+
+      const response = await axios.post("http://localhost:8000/api/v1/category-budgets/add-category-budget",
+        newCatBudget,
+        {
+          withCredentials: true,
+        }
+      );
+
+      setCatBudgets(prev => [...prev, response.data.data]);
+
+      setSelected("");
+      setSelectedIcon("📦");
+
+      toast.success("Category budget added successfully!");
+
+      onClose();
+
+    } catch (error) {
+
+      toast.error(error.response?.data?.message || "Unable to add budget.")
+
+      // setError(
+      //   error.response?.data?.message ||
+      //   "Unable to add budget."
+      // );
+    }
+  }
+
   const getSpentAmount = (category) => {
     return expenses
-      .filter(exp => exp.category === category)
+      .filter((exp) => {
+        if (exp.category !== category) return false;
+
+        const expenseDate = new Date(exp.date);
+
+        return (
+          expenseDate.getMonth() + 1 === Number(month) &&
+          expenseDate.getFullYear() === Number(year)
+        );
+      })
       .reduce((sum, exp) => sum + Number(exp.amount), 0);
   };
+
+  const availableCategories = categories.filter(
+    cat =>
+      !catBudgets.some(
+        budget =>
+          budget.category === cat.name &&
+          Number(budget.month) === Number(month) &&
+          Number(budget.year) === Number(year)
+      )
+  );
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
@@ -109,7 +187,7 @@ function AddCategoryBudget({ onClose }) {
             <h2 className='text-[#cbcac4] mt-3'>Unbudgeted categories</h2>
 
             <div className="category-list overflow-y-scroll no-scrollbar h-68">
-              {categories.map((cat) => (
+              {availableCategories.map((cat) => (
                 <div
                   key={cat.name}
                   className="category-card bg-[#262624] p-2 m-2 rounded-lg border-[1.5px] border-gray-600 cursor-pointer flex justify-between"
@@ -198,28 +276,7 @@ function AddCategoryBudget({ onClose }) {
           </button>
 
           <button
-            onClick={() => {
-              if (!selected.trim() || !inputBud) return;
-
-              if (
-                catBudgets.some(
-                  item =>
-                    item.category.toLowerCase() ===
-                    selected.toLowerCase()
-                )
-              ) {
-                alert("Category already exists");
-                return;
-              }
-
-              addCategoryBudget(
-                selected,
-                inputBud,
-                selectedIcon
-              );
-
-              onClose();
-            }}
+            onClick={handleCatBudSubmit}
             className="px-14 py-1 bg-white/10 border-[1.5px] border-gray-600 rounded-lg text-white cursor-pointer hover:bg-blue-500 duration-300"
           >
             Add Budget →

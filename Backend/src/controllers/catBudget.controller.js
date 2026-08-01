@@ -13,20 +13,15 @@ const createCatBudget = asyncHandler(async (req, res) => {
     // save data in DB
     // return response
 
-    const { amount, category } = req.body
+    const { amount, category, categoryIcon, month, year } = req.body
 
-    if (amount == null || !category?.trim()) {
-        throw new ApiError(400, "Amount and category are required")
+    if (amount == null || !category?.trim() || !month || !year) {
+        throw new ApiError(400, "Amount, category, month and year are required")
     }
 
     if (amount <= 0) {
         throw new ApiError(400, "Budget amount must be greater than 0")
     }
-
-    const now = new Date();
-
-    const month = now.getMonth() + 1;
-    const year = now.getFullYear();
 
     const existingCatBudget = await CatBudget.findOne({
         owner: req.user._id,
@@ -43,6 +38,7 @@ const createCatBudget = asyncHandler(async (req, res) => {
         {
             amount,
             category: category.trim(),
+            categoryIcon,
             month,
             year,
             owner: req.user._id
