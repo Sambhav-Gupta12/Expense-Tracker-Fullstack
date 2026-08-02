@@ -3,6 +3,10 @@ import { ApiError } from "../utils/ApiErrors.js"
 import { User } from "../models/user.model.js"
 import { uploadOnCloudinary } from "../utils/cloudinary.js"
 import { ApiResponse } from "../utils/ApiResponse.js"
+import { Expense } from "../models/expense.model.js";
+import { Income } from "../models/income.model.js";
+import { Budget } from "../models/budget.model.js";
+import { CatBudget } from "../models/catBudget.model.js";
 import jwt from "jsonwebtoken"
 
 const generateAccessAndRefreshTokens = async (userId) => {
@@ -176,6 +180,36 @@ const logoutUser = asyncHandler(async (req, res) => {
         .clearCookie("refreshToken", options)
         .json(new ApiResponse(200, {}, "User logged out"))
 
+})
+
+const deleteUser = asyncHandler(async (req, res) => {
+
+    const user = await User.findById(req.user._id);
+
+    if (!user) {
+        throw new ApiError(404, "User not found");
+    }
+
+    await Expense.deleteMany({ owner: req.user._id });
+    await Income.deleteMany({ owner: req.user._id });
+    await Budget.deleteMany({ owner: req.user._id });
+    await CatBudget.deleteMany({ owner: req.user._id });
+
+
+    await User.findByIdAndDelete(req.user._id);
+
+    const options = {
+        httpOnly: true,
+        secure: true,
+    };
+
+    return res
+        .status(200)
+        .clearCookie("accessToken", options)
+        .clearCookie("refreshToken", options)
+        .json(
+            new ApiResponse(200, {}, "User deleted successfully")
+        );
 })
 
 const refreshAccessToken = asyncHandler(async (req, res) => {
@@ -356,6 +390,7 @@ export {
     registerUser,
     loginUser,
     logoutUser,
+    deleteUser,
     refreshAccessToken,
     changeCurrentPassword,
     getCurrentUser,

@@ -15,8 +15,8 @@ export const PAYMENTMETHODS = [
     "UPI",
     "Cash",
     "Bank transfer",
-    "Credit Card",
-    "Debit Card",
+    "Credit card",
+    "Debit card",
     "Net Banking"
 ]
 

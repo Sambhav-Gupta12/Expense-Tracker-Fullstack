@@ -6,9 +6,12 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from '../../context/AuthContext.jsx';
 import { useExpense } from '../../context/ExpenseContext.jsx';
 import { useIncome } from '../../context/IncomeContext.jsx'
-import ConfirmModal from '../confirmModal/ConfirmModal.jsx';
+import { useBudget } from '../../context/BudgetContext.jsx'
+import { useCatBudget } from '../../context/CatBudContext.jsx'
+import ConfirmLogout from '../confirmModal/ConfirmLogout.jsx';
 import EditProfile from './EditProfile.jsx';
 import EditPassword from './EditPassword.jsx';
+import toast from 'react-hot-toast';
 
 function ProfileCard() {
 
@@ -16,8 +19,10 @@ function ProfileCard() {
     const [showEditProfileModal, setShowEditProfileModal] = useState(false);
     const [showEditPassword, setShowEditPassword] = useState(false);
 
-    const { expenses } = useExpense();
-    const { incomes } = useIncome()
+    const { expenses, setExpenses } = useExpense();
+    const { incomes, setIncomes } = useIncome();
+    const { setBudget } = useBudget();
+    const { setCatBudgets } = useCatBudget()
 
     const { user, setUser } = useAuth();
 
@@ -108,7 +113,7 @@ function ProfileCard() {
                 </p>
 
                 <span className="mt-3 px-4 py-1 rounded-full bg-indigo-600 text-white text-sm">
-                    Pro plan
+                    Free plan
                 </span>
             </div>
 
@@ -150,7 +155,7 @@ function ProfileCard() {
 
             {
                 showLogoutModal && (
-                    <ConfirmModal
+                    <ConfirmLogout
                         onCancel={() => setShowLogoutModal(false)}
                         onConfirm={handleLogout}
                     />

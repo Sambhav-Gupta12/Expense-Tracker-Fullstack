@@ -4,6 +4,7 @@ import { useExpense } from "../../context/ExpenseContext";
 import { useIncome } from '../../context/IncomeContext';
 import OtherExp from './OtherExp';
 import axios from 'axios';
+import toast from 'react-hot-toast'
 
 function AddExpense() {
 
@@ -44,27 +45,27 @@ function AddExpense() {
     setSuccess("");
 
     if (!amount.trim()) {
-      setError("Amount is required.");
+      toast.error("Amount is required.");
       return;
     }
 
     if (!date.trim()) {
-      setError("Date is required.");
+      toast.error("Date is required.");
       return;
     }
 
     if (!title.trim()) {
-      setError("Title is required.");
+      toast.error("Title is required.");
       return;
     }
 
     if (Number(amount) <= 0) {
-      setError("Enter a valid amount.");
+      toast.error("Enter a valid amount.");
       return;
     }
 
     if (!category.trim()) {
-      setError("Category is required.");
+      toast.error("Category is required.");
       return;
     }
 
@@ -105,21 +106,20 @@ function AddExpense() {
       setShowOther(false);
       setSelectedButton("Food");
 
-      setSuccess("Expense added successfully!");
+      toast.success("Expense added successfully!");
 
       setTimeout(() => {
         setSuccess("");
       }, 3000);
 
     } catch (error) {
-      console.log(error);
-      console.log(error.response);
-      console.log(error.response?.data);
 
-      setError(
-        error.response?.data?.message ||
-        "Unable to add expense."
-      );
+      toast.error(error.response?.data?.message || "Unable to add expense.")
+
+      // setError(
+      //   error.response?.data?.message ||
+      //   "Unable to add expense."
+      // );
 
     }
   };
@@ -130,22 +130,22 @@ function AddExpense() {
     setSuccess("");
 
     if (!amount.trim()) {
-      setError("Amount is required.");
+      toast.error("Amount is required.");
       return;
     }
 
     if (!date.trim()) {
-      setError("Date is required.");
+      toast.error("Date is required.");
       return;
     }
 
     if (!title.trim()) {
-      setError("Title is required.");
+      toast.error("Title is required.");
       return;
     }
 
     if (Number(amount) <= 0) {
-      setError("Enter a valid amount.");
+      toast.error("Enter a valid amount.");
       return;
     }
 
@@ -180,7 +180,7 @@ function AddExpense() {
       setAccount("Main account");
       setNotes("")
 
-      setSuccess("Income added successfully!");
+      toast.success("Income added successfully!");
 
       setTimeout(() => {
         setSuccess("");
@@ -191,7 +191,7 @@ function AddExpense() {
       console.log(error.response);
       console.log(error.response?.data);
 
-      setError(
+      toast.error(
         error.response?.data?.message ||
         "Unable to add income."
       );
@@ -205,7 +205,7 @@ function AddExpense() {
         <div className="md:w-[95%] w-full h-155 overflow-x-scroll no-scrollbar pb-4 bg-[#30302e] rounded-xl border-[1.5px] border-[#494945]">
           <div className="text-white mt-2 ml-4 font-semibold text-[18px]">Add new expense</div>
 
-          {error && (
+          {/* {error && (
             <div className="mx-4 mt-3 rounded-lg bg-red-500/15 border border-red-500 px-4 py-2 text-red-400">
               {error}
             </div>
@@ -215,7 +215,7 @@ function AddExpense() {
             <div className="mx-4 mt-3 rounded-lg bg-green-500/15 border border-green-500 px-4 py-2 text-green-400">
               {success}
             </div>
-          )}
+          )} */}
 
           <div className="Trans-type flex justify-center mt-2 px-6">
             <button

@@ -1,4 +1,14 @@
 import React from 'react'
+import { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from "react-router-dom";
+import { useAuth } from '../../context/AuthContext.jsx';
+import { useExpense } from '../../context/ExpenseContext.jsx';
+import { useIncome } from '../../context/IncomeContext.jsx'
+import { useBudget } from '../../context/BudgetContext.jsx'
+import { useCatBudget } from '../../context/CatBudContext.jsx'
+import toast from 'react-hot-toast';
+import ConfirmDelete from '../confirmModal/ConfirmDelete.jsx';
 
 function ActionRow({
     title,
@@ -6,6 +16,49 @@ function ActionRow({
     button,
     danger = false
 }) {
+
+    const [showConfirmModal, setShowConfirmModal] = useState(false)
+    const [loading, setLoading] = useState(false);
+
+    const { expenses, setExpenses } = useExpense();
+    const { incomes, setIncomes } = useIncome();
+    const { setBudget } = useBudget();
+    const { setCatBudgets } = useCatBudget()
+
+    const { user, setUser } = useAuth();
+
+    const navigate = useNavigate();
+
+    const handleDelete = async () => {
+        try {
+            setLoading(true);
+
+            await axios.delete("http://localhost:8000/api/v1/users/delete-user",
+                {
+                    withCredentials: true,
+                }
+            )
+
+            setShowConfirmModal(false);
+
+            setUser(null)
+            setExpenses([])
+            setIncomes([])
+            setBudget([])
+            setCatBudgets([])
+
+            navigate("/");
+
+            toast.success("Account deleted successfully!");
+
+        } catch (error) {
+            toast.error(error.response?.data?.message || "Unable to delete account.")
+        } finally {
+            setLoading(false);
+        }
+
+    }
+
     return (
         <div className="flex justify-between items-center">
 
@@ -20,13 +73,27 @@ function ActionRow({
             </div>
 
             <button
+                onClick={danger
+                    ? () => setShowConfirmModal(true)
+                    : () => setShowConfirmModal(false)
+                }
                 className={`px-4 py-2 rounded-xl border ${danger
-                        ? "border-red-500 text-red-500"
-                        : "border-[#65645f] text-white"
+                    ? "border-red-500 text-red-500 cursor-pointer hover:bg-red-200 duration-300"
+                    : "border-[#65645f] text-white"
                     }`}
             >
                 {button}
             </button>
+
+            {
+                showConfirmModal && (
+                    <ConfirmDelete
+                        onCancel={() => setShowConfirmModal(false)}
+                        onConfirm={handleDelete}
+                        loading={loading}
+                    />
+                )
+            }
         </div>
     );
 }

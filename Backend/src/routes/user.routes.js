@@ -7,7 +7,8 @@ import {
     changeCurrentPassword, 
     getCurrentUser, 
     updateAccountDetails, 
-    updateUserAvatar 
+    updateUserAvatar, 
+    deleteUser
     } from "../controllers/user.controller.js";
 import { upload } from "../middlewares/multer.middleware.js"
 import { verifyJWT } from "../middlewares/auth.middleware.js";
@@ -28,6 +29,8 @@ router.route("/login").post(loginUser)
 
 // Secured routes
 router.route("/logout").post(verifyJWT, logoutUser)
+
+router.route("/delete-user").delete(verifyJWT, deleteUser)
 
 router.route("/refresh-token").post(refreshAccessToken)
 

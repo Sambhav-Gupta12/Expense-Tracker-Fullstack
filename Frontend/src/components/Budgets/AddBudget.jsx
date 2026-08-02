@@ -21,23 +21,25 @@ function AddBudget({ onClose }) {
 
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
+    const [loading, setloading] = useState(false);
 
     const handleBudgetSubmit = async () => {
 
         setError("");
         setSuccess("");
 
-        if (!inputValue.trim()) {
-            setError("Amount is required.");
+        if (!inputValue) {
+            toast.error("Amount is required.");
             return;
         }
 
         if (Number(inputValue) <= 0) {
-            setError("Enter a valid amount.");
+            toast.error("Enter a valid amount.");
             return;
         }
 
         try {
+            setloading(true);
 
             const newBudget = {
                 monthlyBudget: Number(inputValue),
@@ -67,10 +69,12 @@ function AddBudget({ onClose }) {
             console.log(error.response);
             console.log(error.response?.data);
 
-            setError(
+            toast.error(
                 error.response?.data?.message ||
                 "Unable to add budget."
             );
+        }finally{
+            setloading(false);
         }
     }
 
@@ -155,9 +159,10 @@ function AddBudget({ onClose }) {
 
                     <button
                         onClick={handleBudgetSubmit}
+                        disabled={loading}
                         className="px-3 py-1 bg-blue-600 rounded-lg text-white cursor-pointer hover:bg-blue-500 duration-300"
                     >
-                        Save Budget
+                        {loading ? "Adding budget..." : "Add budget"}
                     </button>
                 </div>
 

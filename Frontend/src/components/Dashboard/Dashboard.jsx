@@ -12,7 +12,16 @@ import RecentTransaction from './RecentTransaction';
 
 function Dashboard() {
 
-  const [months, setMonths] = useState("This Month")
+  const currentDate = new Date();
+
+  const [month, setMonth] = useState(
+    String(currentDate.getMonth() + 1).padStart(2, "0")
+  );
+
+  const [year, setYear] = useState(
+    String(currentDate.getFullYear())
+  );
+
   const { expenses } = useExpense();
   const { incomes } = useIncome();
   const { budget } = useBudget();
@@ -22,8 +31,6 @@ function Dashboard() {
   });
 
   const currentYear = new Date().getFullYear();
-
-  const currentDate = new Date();
 
   const allTransactions = [
     ...expenses.map(expense => ({
@@ -43,72 +50,66 @@ function Dashboard() {
     (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
   );
 
+  const years = [
+    currentDate.getFullYear() - 1,
+    currentDate.getFullYear(),
+    currentDate.getFullYear() + 1,
+  ];
+
+  // const filteredTransactions = transactions.filter((transaction) => {
+  //   const expenseDate = new Date(transaction.date);
+
+  //   if (months === "This Month") {
+  //     return (
+  //       expenseDate.getMonth() === currentDate.getMonth() &&
+  //       expenseDate.getFullYear() === currentDate.getFullYear()
+  //     );
+  //   }
+
+  //   if (months === "Last Month") {
+  //     const lastMonth = new Date(
+  //       currentDate.getFullYear(),
+  //       currentDate.getMonth() - 1,
+  //       1
+  //     );
+
+  //     return (
+  //       expenseDate.getMonth() === lastMonth.getMonth() &&
+  //       expenseDate.getFullYear() === lastMonth.getFullYear()
+  //     );
+  //   }
+
+  //   if (months === "This year") {
+  //     return expenseDate.getFullYear() === currentDate.getFullYear();
+  //   }
+
+  //   return true;
+  // });
+
   const filteredTransactions = transactions.filter((transaction) => {
-    const expenseDate = new Date(transaction.date);
+    const [transactionYear, transactionMonth, day] =
+      transaction.date.split("-");
 
-    if (months === "This Month") {
-      return (
-        expenseDate.getMonth() === currentDate.getMonth() &&
-        expenseDate.getFullYear() === currentDate.getFullYear()
-      );
-    }
+    const monthMatch = Number(transactionMonth) === Number(month);
 
-    if (months === "Last Month") {
-      const lastMonth = new Date(
-        currentDate.getFullYear(),
-        currentDate.getMonth() - 1,
-        1
-      );
+    const yearMatch =
+      year === "All" ||
+      Number(transactionYear) === Number(year);
 
-      return (
-        expenseDate.getMonth() === lastMonth.getMonth() &&
-        expenseDate.getFullYear() === lastMonth.getFullYear()
-      );
-    }
-
-    if (months === "This year") {
-      return expenseDate.getFullYear() === currentDate.getFullYear();
-    }
-
-    return true;
+    return monthMatch && yearMatch;
   });
-
-  console.log(filteredTransactions);
-
-  let selectedMonth;
-  let selectedYear;
-
-  if (months === "This Month") {
-    selectedMonth = currentDate.getMonth() + 1;
-    selectedYear = currentDate.getFullYear();
-  }
-
-  if (months === "Last Month") {
-    const last = new Date(
-      currentDate.getFullYear(),
-      currentDate.getMonth() - 1
-    );
-
-    selectedMonth = last.getMonth() + 1;
-    selectedYear = last.getFullYear();
-  }
-
-  if (months === "This year") {
-    selectedMonth = null;
-    selectedYear = currentDate.getFullYear();
-  }
 
   let budgetAmount = 0;
 
-  if (months === "This year") {
+  if (year === "All") {
     budgetAmount = budget
-      .filter(bud => Number(bud.year) === selectedYear)
+      .filter(bud => Number(bud.month) === Number(month))
       .reduce((sum, bud) => sum + Number(bud.monthlyBudget), 0);
   } else {
     const currentBudget = budget.find(
       bud =>
-        Number(bud.month) === Number(selectedMonth) &&
-        Number(bud.year) === Number(selectedYear)
+        Number(bud.month) === Number(month) &&
+        Number(bud.year) === Number(year)
     );
 
     budgetAmount = currentBudget?.monthlyBudget || 0;
@@ -133,16 +134,40 @@ function Dashboard() {
           <div className="text-[#b0b0ac] mb-4">{currentMonth} {currentYear}</div>
         </div>
 
-        <div className="flex flex-row sm:flex-row gap-3 w-full md:w-auto">
-          <select
-            className="w-full sm:w-40 bg-[#262624] border-[1.5px] border-[#494945] h-10 px-3 cursor-pointer rounded-lg focus:outline-none focus:border-blue-600 focus:shadow-[0_0_6px_#3b82f6] font-semibold text-[#b7b5a7]"
-            value={months}
-            onChange={(e) => setMonths(e.target.value)}
-          >
-            <option>This Month</option>
-            <option>Last Month</option>
-            <option>This year</option>
-          </select>
+        <div className="flex flex-col-reverse sm:flex-row gap-3 w-full md:w-auto">
+          <div className='flex gap-3'>
+            <select
+              className="w-full sm:w-40 bg-[#262624] border-[1.5px] border-[#494945] h-10 px-3 cursor-pointer rounded-lg focus:outline-none focus:border-blue-600 focus:shadow-[0_0_6px_#3b82f6] font-semibold text-[#b7b5a7]"
+              value={month}
+              onChange={(e) => setMonth(e.target.value)}
+            >
+              <option value="01">January</option>
+              <option value="02">February</option>
+              <option value="03">March</option>
+              <option value="04">April</option>
+              <option value="05">May</option>
+              <option value="06">June</option>
+              <option value="07">July</option>
+              <option value="08">August</option>
+              <option value="09">September</option>
+              <option value="10">October</option>
+              <option value="11">November</option>
+              <option value="12">December</option>
+            </select>
+
+            <select
+              className="w-full md:flex-1 bg-[#262624] border-[1.5px] h-10 px-3 cursor-pointer border-[#494945] rounded-lg focus:outline-none focus:border-blue-600 focus:shadow-[0_0_6px_#3b82f6] font-semibold text-[#b7b5a7]"
+              value={year}
+              onChange={(e) => setYear(e.target.value)}
+            >
+
+              {years.map((y) => (
+                <option key={y} value={y}>
+                  {y}
+                </option>
+              ))}
+            </select>
+          </div>
 
           <NavLink
             to="/add-expense"
