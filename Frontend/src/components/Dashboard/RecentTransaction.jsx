@@ -37,7 +37,7 @@ function RecentTransaction({ transactions }) {
                         </div>
 
                         <div className='text-gray-300 font-semibold'>
-                            {transaction.payment}
+                            {transaction.paymentMethod || transaction.payment}
                         </div>
 
                         <div
@@ -82,7 +82,7 @@ function RecentTransaction({ transactions }) {
                         <div className='flex justify-between py-1'>
                             <span className='text-gray-400'>Payment</span>
                             <span className='text-white'>
-                                {transaction.payment}
+                                {transaction.paymentMethod || transaction.payment}
                             </span>
                         </div>
 

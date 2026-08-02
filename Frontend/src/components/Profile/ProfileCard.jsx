@@ -5,13 +5,19 @@ import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import { useAuth } from '../../context/AuthContext.jsx';
 import { useExpense } from '../../context/ExpenseContext.jsx';
+import { useIncome } from '../../context/IncomeContext.jsx'
 import ConfirmModal from '../confirmModal/ConfirmModal.jsx';
+import EditProfile from './EditProfile.jsx';
+import EditPassword from './EditPassword.jsx';
 
 function ProfileCard() {
 
     const [showLogoutModal, setShowLogoutModal] = useState(false);
+    const [showEditProfileModal, setShowEditProfileModal] = useState(false);
+    const [showEditPassword, setShowEditPassword] = useState(false);
 
     const { expenses } = useExpense();
+    const { incomes } = useIncome()
 
     const { user, setUser } = useAuth();
 
@@ -50,6 +56,33 @@ function ProfileCard() {
 
     const transactions = expenses.length;
 
+    const totalSpent = expenses.reduce(
+        (sum, expense) => sum + Number(expense.amount),
+        0
+    )
+
+    const totalIncome = incomes.reduce(
+        (sum, income) => sum + Number(income.amount),
+        0
+    );
+
+    const savingsPercent =
+        totalIncome > 0
+            ? (((totalIncome - totalSpent) / totalIncome) * 100).toFixed(1)
+            : 0;
+
+    const formatCurrency = (amount) => {
+        if (amount >= 100000) {
+            return `₹ ${(amount / 100000).toFixed(1).replace(".0", "")}L`;
+        }
+
+        if (amount >= 1000) {
+            return `₹ ${(amount / 1000).toFixed(1).replace(".0", "")}K`;
+        }
+
+        return `₹${amount}`;
+    };
+
     return (
         <div className="bg-[#262624] border border-[#494945] rounded-2xl p-6">
 
@@ -84,13 +117,30 @@ function ProfileCard() {
             <div className="space-y-4">
                 <Row label="Member since" value={joinedDate} />
                 <Row label="Transactions" value={transactions} />
-                <Row label="Total tracked" value="₹4.2L" />
-                <Row label="Avg savings" value="26%" />
+                <Row label="Total tracked" value={formatCurrency(totalSpent)} />
+                <Row label="Avg savings" value={`${savingsPercent}%`} />
             </div>
 
-            <button className="cursor-pointer w-full mt-6 border border-[#65645f] rounded-xl py-3 text-white hover:bg-[#30302e]">
+            <button
+                onClick={() => setShowEditProfileModal(true)}
+                className="cursor-pointer w-full mt-6 border border-[#65645f] rounded-xl py-3 text-white hover:bg-[#30302e]">
                 Edit profile
             </button>
+
+            {
+                showEditProfileModal && (
+                    <EditProfile
+                        onCancel={() => setShowEditProfileModal(false)}
+                        onChangePassword={() => setShowEditPassword(true)}
+                    />
+                )
+            }
+
+            {showEditPassword && (
+                <EditPassword
+                    onCancel={() => setShowEditPassword(false)}
+                />
+            )}
 
             <button
                 onClick={() => setShowLogoutModal(true)}

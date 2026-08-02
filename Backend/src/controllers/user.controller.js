@@ -91,7 +91,7 @@ const registerUser = asyncHandler(async (req, res) => {
         .cookie("accessToken", accessToken, options)
         .cookie("refreshToken", refreshToken, options)
         .json(
-            new ApiResponse(201, {user: createdUser, accessToken, refreshToken}, "User registered Successfully")
+            new ApiResponse(201, { user: createdUser, accessToken, refreshToken }, "User registered Successfully")
         )
 })
 
@@ -230,12 +230,20 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
 
     const { oldPassword, newPassword, confPassword } = req.body
 
+    if (!oldPassword?.trim()) {
+        throw new ApiError(400, "Old password is required");
+    }
+
     if (!newPassword?.trim()) {
         throw new ApiError(400, "New password is required");
     }
 
+    if (!confPassword?.trim()) {
+        throw new ApiError(400, "Confirm password is required");
+    }
+
     if (newPassword !== confPassword) {
-        throw new ApiError(400, "New password and confirm password are not same")
+        throw new ApiError(400, "New password and confirm password do not match");
     }
 
     if (oldPassword === newPassword) {
