@@ -22,10 +22,6 @@ function AddExpense() {
 
   const [showOther, setShowOther] = useState(false)
 
-  const [error, setError] = useState("");
-
-  const [success, setSuccess] = useState("");
-
   const { setExpenses } = useExpense();
   const { setIncomes } = useIncome()
 
@@ -40,9 +36,6 @@ function AddExpense() {
   };
 
   const handleExpenseSubmit = async () => {
-
-    setError("");
-    setSuccess("");
 
     if (!amount) {
       toast.error("Amount is required.");
@@ -70,11 +63,8 @@ function AddExpense() {
     }
 
     try {
-      // const [yyyy, mm, dd] = date.split("-");
-      // const formattedDate = `${dd}-${mm}-${yyyy}`;
+
       const newExpense = {
-        // id: Date.now(),
-        // transType: transType,
         title: title,
         amount: Number(amount),
         category: category,
@@ -95,7 +85,6 @@ function AddExpense() {
       setExpenses((prev) => [...prev, response.data.data]);
 
       setCategory("Food");
-      // setTransType(transType);
       setAmount("");
       setDate("");
       setTitle("");
@@ -112,18 +101,10 @@ function AddExpense() {
 
       toast.error(error.response?.data?.message || "Unable to add expense.")
 
-      // setError(
-      //   error.response?.data?.message ||
-      //   "Unable to add expense."
-      // );
-
     }
   };
 
   const handleIncomeSubmit = async () => {
-
-    setError("");
-    setSuccess("");
 
     if (!amount) {
       toast.error("Amount is required.");
@@ -146,11 +127,8 @@ function AddExpense() {
     }
 
     try {
-      // const [yyyy, mm, dd] = date.split("-");
-      // const formattedDate = `${dd}-${mm}-${yyyy}`;
+
       const newIncome = {
-        // id: Date.now(),
-        // transType: transType,
         title: title,
         amount: Number(amount),
         paymentMethod: payment,
@@ -168,7 +146,6 @@ function AddExpense() {
 
       setIncomes((prev) => [...prev, response.data.data]);
 
-      // setTransType(transType);
       setAmount("");
       setDate("");
       setTitle("");
@@ -178,14 +155,7 @@ function AddExpense() {
 
       toast.success("Income added successfully!");
 
-      setTimeout(() => {
-        setSuccess("");
-      }, 3000);
-
     } catch (error) {
-      console.log(error);
-      console.log(error.response);
-      console.log(error.response?.data);
 
       toast.error(
         error.response?.data?.message ||
@@ -200,18 +170,6 @@ function AddExpense() {
       <div className="md:w-[56%] w-full h-165 bg-[#30302e] p-2 md:p-0 md:bg-[#1e1e1d] rounded-xl flex justify-center items-center">
         <div className="md:w-[95%] w-full h-155 overflow-x-scroll no-scrollbar pb-4 bg-[#30302e] rounded-xl border-[1.5px] border-[#494945]">
           <div className="text-white mt-2 ml-4 font-semibold text-[18px]">Add new expense</div>
-
-          {/* {error && (
-            <div className="mx-4 mt-3 rounded-lg bg-red-500/15 border border-red-500 px-4 py-2 text-red-400">
-              {error}
-            </div>
-          )}
-
-          {success && (
-            <div className="mx-4 mt-3 rounded-lg bg-green-500/15 border border-green-500 px-4 py-2 text-green-400">
-              {success}
-            </div>
-          )} */}
 
           <div className="Trans-type flex justify-center mt-2 px-6">
             <button

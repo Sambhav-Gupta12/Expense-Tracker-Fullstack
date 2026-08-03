@@ -56,11 +56,8 @@ function EditExpense({ transaction, onCancel }) {
         setLoading(true);
 
         try {
-            // const [yyyy, mm, dd] = date.split("-");
-            // const formattedDate = `${dd}-${mm}-${yyyy}`;
+            
             const newIncome = {
-                // id: Date.now(),
-                // transType: transType,
                 title: title,
                 amount: Number(amount),
                 paymentMethod: payment,
@@ -84,7 +81,6 @@ function EditExpense({ transaction, onCancel }) {
                 )
             );
 
-            // setTransType(transType);
             setAmount("");
             setDate("");
             setTitle("");
@@ -99,11 +95,6 @@ function EditExpense({ transaction, onCancel }) {
         } catch (error) {
 
             toast.error(error.response?.data?.message || "Unable to update Income.")
-
-            // setError(
-            //   error.response?.data?.message ||
-            //   "Unable to add expense."
-            // );
 
         } finally {
             setLoading(false);

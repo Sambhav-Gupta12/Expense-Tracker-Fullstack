@@ -32,23 +32,6 @@ export const CatBudProvider = ({ children }) => {
     }
   }, [user]);
 
-  // const addCategoryBudget = (category, budget, categoryIcon) => {
-  //   const newBudget = {
-  //     id: crypto.randomUUID(),
-  //     category,
-  //     budget: Number(budget),
-  //     categoryIcon,
-  //   };
-
-  //   setCatBudgets((prev) => [...prev, newBudget]);
-  // };
-
-  // const deleteCategoryBudget = (id) => {
-  //   setCatBudgets((prev) =>
-  //     prev.filter((item) => item.id !== id)
-  //   );
-  // };
-
   return (
     <CatBudContext.Provider
       value={{

@@ -36,11 +36,6 @@ const router = createBrowserRouter(
         <Route path='budgets' element={<Budgets />} />
         <Route path='profile' element={<Profile />} />
         <Route path='add-expense' element={<AddExpense />} />
-        {/* <Route 
-      loader={githubInfoLoader}
-      path='github' 
-      element={<Github />}
-       /> */}
       </Route>
     </>
   )

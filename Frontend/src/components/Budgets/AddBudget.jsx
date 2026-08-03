@@ -24,14 +24,9 @@ function AddBudget({ onClose, selectedMonth, selectedYear }) {
         Number(selectedYear ?? currentYear)
     );
     
-    const [error, setError] = useState("");
-    const [success, setSuccess] = useState("");
     const [loading, setloading] = useState(false);
 
     const handleBudgetSubmit = async () => {
-
-        setError("");
-        setSuccess("");
 
         if (!inputValue) {
             toast.error("Amount is required.");
@@ -70,9 +65,6 @@ function AddBudget({ onClose, selectedMonth, selectedYear }) {
             onClose();
 
         } catch (error) {
-            console.log(error);
-            console.log(error.response);
-            console.log(error.response?.data);
 
             toast.error(
                 error.response?.data?.message ||
@@ -102,18 +94,6 @@ function AddBudget({ onClose, selectedMonth, selectedYear }) {
                         ✕
                     </button>
                 </div>
-
-                {error && (
-                    <div className="mx-4 mt-3 rounded-lg bg-red-500/15 border border-red-500 px-4 py-2 text-red-400">
-                        {error}
-                    </div>
-                )}
-
-                {success && (
-                    <div className="mx-4 mt-3 rounded-lg bg-green-500/15 border border-green-500 px-4 py-2 text-green-400">
-                        {success}
-                    </div>
-                )}
 
                 <input
                     type="number"

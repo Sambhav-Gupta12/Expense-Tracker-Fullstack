@@ -17,9 +17,6 @@ function AddCategoryBudget({ onClose, month, year }) {
 
   const { expenses } = useExpense();
 
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
-
   const categories = [
     {
       name: "Entertainment",
@@ -52,9 +49,6 @@ function AddCategoryBudget({ onClose, month, year }) {
   ];
 
   const handleCatBudSubmit = async () => {
-
-    setError("");
-    setSuccess("");
 
     if (!inputBud.trim()) {
       toast.error("Amount is required");
@@ -101,10 +95,6 @@ function AddCategoryBudget({ onClose, month, year }) {
 
       toast.error(error.response?.data?.message || "Unable to add budget.")
 
-      // setError(
-      //   error.response?.data?.message ||
-      //   "Unable to add budget."
-      // );
     }
   }
 

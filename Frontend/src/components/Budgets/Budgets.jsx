@@ -36,35 +36,6 @@ function Budgets() {
     currentDate.getFullYear() + 1,
   ];
 
-  // const filteredExpenses = expenses.filter((expense) => {
-  //   const expenseDate = new Date(expense.date);
-
-  //   if (months === "This Month") {
-  //     return (
-  //       expenseDate.getMonth() === currentDate.getMonth() &&
-  //       expenseDate.getFullYear() === currentDate.getFullYear()
-  //     );
-  //   }
-
-  //   if (months === "Last Month") {
-  //     const lastMonth = new Date(
-  //       currentDate.getFullYear(),
-  //       currentDate.getMonth() - 1,
-  //       1
-  //     );
-
-  //     return (
-  //       expenseDate.getMonth() === lastMonth.getMonth() &&
-  //       expenseDate.getFullYear() === lastMonth.getFullYear()
-  //     );
-  //   }
-
-  //   if (months === "This year") {
-  //     return expenseDate.getFullYear() === currentDate.getFullYear();
-  //   }
-
-  //   return true;
-  // });
 
   const filteredExpenses = expenses.filter((expense) => {
     const expenseDate = new Date(expense.date);
@@ -74,28 +45,6 @@ function Budgets() {
       expenseDate.getFullYear() === Number(year)
     );
   });
-
-  // let selectedMonth;
-  // let selectedYear;
-
-  // if (months === "This Month") {
-  //   selectedMonth = currentDate.getMonth() + 1
-  //   selectedYear = currentDate.getFullYear();
-  // }
-
-  // if (months === "Last Month") {
-  //   const last = new Date(
-  //     currentDate.getFullYear(),
-  //     currentDate.getMonth() - 1
-  //   );
-
-  //   selectedMonth = last.getMonth() + 1
-  //   selectedYear = last.getFullYear();
-  // }
-
-  console.log("Budget:", budget);
-  console.log("Selected Month:", month);
-  console.log("Selected Year:", year);
 
   const currentBudget = budget.find(
     (bud) =>

@@ -135,8 +135,6 @@ function Auth() {
 
             setUser(response.data.data.user);
 
-            // const { user } = response.data.data;
-
             setEmail("");
             setEmailOrUsername("");
             setFullName("");

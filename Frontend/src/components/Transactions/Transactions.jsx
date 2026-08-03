@@ -48,14 +48,6 @@ function Transactions() {
     (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
   );
 
-  // const years = [
-  //   ...new Set(
-  //     transactions
-  //       .map(exp => exp.date?.split("-")[0])
-  //       .filter(Boolean)
-  //   )
-  // ].sort((a, b) => Number(b) - Number(a));
-
   const years = [
     ...new Set(
       transactions.map(transaction =>
@@ -63,10 +55,6 @@ function Transactions() {
       )
     )
   ].sort((a, b) => Number(b) - Number(a));
-
-  // const count = showAll
-  //   ? totalEntries
-  //   : Math.min(totalEntries, 6);
 
   const filteredTransactions = transactions.filter((transaction) => {
     const categoryMatch =

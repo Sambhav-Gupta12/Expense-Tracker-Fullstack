@@ -56,36 +56,6 @@ function Dashboard() {
     currentDate.getFullYear() + 1,
   ];
 
-  // const filteredTransactions = transactions.filter((transaction) => {
-  //   const expenseDate = new Date(transaction.date);
-
-  //   if (months === "This Month") {
-  //     return (
-  //       expenseDate.getMonth() === currentDate.getMonth() &&
-  //       expenseDate.getFullYear() === currentDate.getFullYear()
-  //     );
-  //   }
-
-  //   if (months === "Last Month") {
-  //     const lastMonth = new Date(
-  //       currentDate.getFullYear(),
-  //       currentDate.getMonth() - 1,
-  //       1
-  //     );
-
-  //     return (
-  //       expenseDate.getMonth() === lastMonth.getMonth() &&
-  //       expenseDate.getFullYear() === lastMonth.getFullYear()
-  //     );
-  //   }
-
-  //   if (months === "This year") {
-  //     return expenseDate.getFullYear() === currentDate.getFullYear();
-  //   }
-
-  //   return true;
-  // });
-
   const filteredTransactions = transactions.filter((transaction) => {
     const [transactionYear, transactionMonth, day] =
       transaction.date.split("-");
