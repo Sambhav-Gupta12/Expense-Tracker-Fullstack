@@ -3,6 +3,7 @@ import axios from 'axios';
 import toast from 'react-hot-toast'
 import OtherExp from '../AddExpense/OtherExp.jsx'
 import { useExpense } from "../../context/ExpenseContext.jsx";
+import { API } from "../utils/api";
 
 function EditExpense({ transaction, onCancel }) {
 
@@ -100,7 +101,7 @@ function EditExpense({ transaction, onCancel }) {
                 categoryIcon: customIcon || transaction.categoryIcon
             };
 
-            const response = await axios.patch(`http://localhost:8000/api/v1/expenses/update-expense/${transaction._id}`,
+            const response = await axios.patch(`${API}/expenses/update-expense/${transaction._id}`,
                 newExpense,
                 {
                     withCredentials: true,

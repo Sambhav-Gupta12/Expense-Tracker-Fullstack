@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useBudget } from "../../context/BudgetContext";
 import axios from 'axios';
 import toast from "react-hot-toast";
+import { API } from "../utils/api";
 
 function AddBudget({ onClose, selectedMonth, selectedYear }) {
 
@@ -49,7 +50,7 @@ function AddBudget({ onClose, selectedMonth, selectedYear }) {
 
             console.log(newBudget);
 
-            const response = await axios.post("http://localhost:8000/api/v1/budgets/add-budget",
+            const response = await axios.post(`${API}/budgets/add-budget`,
                 newBudget,
                 {
                     withCredentials: true,

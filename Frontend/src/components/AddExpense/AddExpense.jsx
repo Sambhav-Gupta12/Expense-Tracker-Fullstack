@@ -5,6 +5,7 @@ import { useIncome } from '../../context/IncomeContext';
 import OtherExp from './OtherExp';
 import axios from 'axios';
 import toast from 'react-hot-toast'
+import { API } from "../utils/api";
 
 function AddExpense() {
 
@@ -75,7 +76,7 @@ function AddExpense() {
         categoryIcon: customIcon || categoryIcons[category] || "💰"
       };
 
-      const response = await axios.post("http://localhost:8000/api/v1/expenses/add-expense",
+      const response = await axios.post(`${API}/expenses/add-expense`,
         newExpense,
         {
           withCredentials: true,
@@ -137,7 +138,7 @@ function AddExpense() {
         note: notes,
       };
 
-      const response = await axios.post("http://localhost:8000/api/v1/incomes/add-income",
+      const response = await axios.post(`${API}/incomes/add-income`,
         newIncome,
         {
           withCredentials: true,

@@ -12,6 +12,7 @@ import ConfirmLogout from '../confirmModal/ConfirmLogout.jsx';
 import EditProfile from './EditProfile.jsx';
 import EditPassword from './EditPassword.jsx';
 import toast from 'react-hot-toast';
+import { API } from "../utils/api";
 
 function ProfileCard() {
 
@@ -32,7 +33,7 @@ function ProfileCard() {
         e.preventDefault();
 
         try {
-            await axios.post("http://localhost:8000/api/v1/users/logout",
+            await axios.post(`${API}/users/logout`,
                 {},
                 {
                     withCredentials: true,

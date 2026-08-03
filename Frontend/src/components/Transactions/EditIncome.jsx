@@ -3,6 +3,7 @@ import axios from 'axios';
 import toast from 'react-hot-toast'
 import OtherExp from '../AddExpense/OtherExp.jsx'
 import { useIncome } from "../../context/IncomeContext.jsx";
+import { API } from "../utils/api";
 
 function EditExpense({ transaction, onCancel }) {
 
@@ -66,7 +67,7 @@ function EditExpense({ transaction, onCancel }) {
                 note: notes,
             };
 
-            const response = await axios.patch(`http://localhost:8000/api/v1/incomes/update-income/${transaction._id}`,
+            const response = await axios.patch(`${API}/incomes/update-income/${transaction._id}`,
                 newIncome,
                 {
                     withCredentials: true,

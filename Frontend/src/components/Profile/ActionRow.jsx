@@ -9,6 +9,7 @@ import { useBudget } from '../../context/BudgetContext.jsx'
 import { useCatBudget } from '../../context/CatBudContext.jsx'
 import toast from 'react-hot-toast';
 import ConfirmDelete from '../confirmModal/ConfirmDelete.jsx';
+import { API } from "../utils/api";
 
 function ActionRow({
     title,
@@ -33,7 +34,7 @@ function ActionRow({
         try {
             setLoading(true);
 
-            await axios.delete("http://localhost:8000/api/v1/users/delete-user",
+            await axios.delete(`${API}/users/delete-user`,
                 {
                     withCredentials: true,
                 }

@@ -5,6 +5,7 @@ import AddCategoryBudget from './AddCategoryBudget';
 import { useCatBudget } from "../../context/CatBudContext";
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { API } from "../utils/api";
 
 
 function CategoryBudget({ expenses, month, year }) {
@@ -16,7 +17,7 @@ function CategoryBudget({ expenses, month, year }) {
 
     try {
 
-      const response = await axios.delete(`http://localhost:8000/api/v1/category-budgets/delete-category-budget/${catBudgetId}`,
+      const response = await axios.delete(`${API}/category-budgets/delete-category-budget/${catBudgetId}`,
         {
           withCredentials: true,
         }

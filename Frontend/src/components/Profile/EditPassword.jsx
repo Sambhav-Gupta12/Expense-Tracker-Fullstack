@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
+import { API } from "../utils/api";
 
 function EditPassword({ onCancel }) {
     const [oldPassword, setOldPassword] = useState("");
@@ -38,7 +39,7 @@ function EditPassword({ onCancel }) {
                 confPassword
             }
 
-            const response = await axios.patch("http://localhost:8000/api/v1/users/change-password",
+            const response = await axios.patch(`${API}/users/change-password`,
                 passwordData,
                 {
                     withCredentials: true

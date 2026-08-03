@@ -4,6 +4,7 @@ import { useCatBudget } from "../../context/CatBudContext";
 import { useExpense } from "../../context/ExpenseContext";
 import axios from 'axios';
 import toast from "react-hot-toast";
+import { API } from "../utils/api";
 
 function AddCategoryBudget({ onClose, month, year }) {
 
@@ -75,7 +76,7 @@ function AddCategoryBudget({ onClose, month, year }) {
         year
       }
 
-      const response = await axios.post("http://localhost:8000/api/v1/category-budgets/add-category-budget",
+      const response = await axios.post(`${API}/category-budgets/add-category-budget`,
         newCatBudget,
         {
           withCredentials: true,

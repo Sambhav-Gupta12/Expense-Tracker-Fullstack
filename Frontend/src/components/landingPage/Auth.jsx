@@ -4,6 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from '../../context/AuthContext.jsx';
 import { Eye, EyeOff } from "lucide-react";
+import { API } from "../utils/api";
 
 function Auth() {
 
@@ -53,7 +54,7 @@ function Auth() {
             }
 
             const response = await axios.post(
-                "http://localhost:8000/api/v1/users/login",
+                `${API}/users/login`,
                 payload,
                 {
                     withCredentials: true,
@@ -64,8 +65,6 @@ function Auth() {
 
             setEmailOrUsername("");
             setPassword("");
-
-            // const { accessToken, refreshToken, user } = response.data.data;
 
             navigate("/dashboard");
 
@@ -122,7 +121,7 @@ function Auth() {
         setLoading(true);
 
         try {
-            const response = await axios.post("http://localhost:8000/api/v1/users/register", {
+            const response = await axios.post(`${API}/users/register`, {
                 fullName,
                 username,
                 email,

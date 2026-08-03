@@ -6,6 +6,7 @@ import AddBudget from './AddBudget';
 import { useBudget } from "../../context/BudgetContext";
 import toast from "react-hot-toast";
 import axios from 'axios';
+import { API } from "../utils/api";
 
 function Budgets() {
   const { expenses } = useExpense();
@@ -73,7 +74,7 @@ function Budgets() {
     try {
       setLoading(true);
 
-      await axios.delete(`http://localhost:8000/api/v1/budgets/delete-budget/${currentBudget._id}`,
+      await axios.delete(`${API}budgets/delete-budget/${currentBudget._id}`,
         {
           withCredentials: true,
         }

@@ -3,6 +3,7 @@ import { useAuth } from '../../context/AuthContext';
 import axios from 'axios';
 import toast from 'react-hot-toast'
 import EditPassword from './EditPassword';
+import { API } from "../utils/api";
 
 function EditProfile({ onCancel, onChangePassword }) {
 
@@ -49,7 +50,7 @@ function EditProfile({ onCancel, onChangePassword }) {
                 email: email.trim()
             }
 
-            const response = await axios.patch("http://localhost:8000/api/v1/users/update-account",
+            const response = await axios.patch(`${API}/users/update-account`,
                 editedProfile,
                 {
                     withCredentials: true

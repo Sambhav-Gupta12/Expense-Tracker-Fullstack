@@ -7,6 +7,7 @@ import EditExpense from './EditExpense';
 import EditIncome from "./EditIncome";
 import ConfirmDelete from '../confirmModal/ConfirmDelete.jsx'
 import toast from 'react-hot-toast';
+import { API } from "../utils/api";
 
 function TransactionCard({ showAll, transactions }) {
 
@@ -26,7 +27,7 @@ function TransactionCard({ showAll, transactions }) {
             setLoading(true);
 
             if (selectedTransaction.transType === "expense") {
-                await axios.delete(`http://localhost:8000/api/v1/expenses/delete-expense/${selectedTransaction._id}`,
+                await axios.delete(`${API}/expenses/delete-expense/${selectedTransaction._id}`,
                     {
                         withCredentials: true,
                     }
