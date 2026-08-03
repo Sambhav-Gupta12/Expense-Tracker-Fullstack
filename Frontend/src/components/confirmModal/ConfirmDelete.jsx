@@ -1,6 +1,6 @@
 import React from 'react'
 
-function ConfirmDelete({ onCancel, onConfirm, loading }) {
+function ConfirmDelete({ onCancel, onConfirm, loading, upperLine, lowerLine }) {
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
 
@@ -36,9 +36,9 @@ function ConfirmDelete({ onCancel, onConfirm, loading }) {
 
                 {/* Message */}
                 <p className="mt-3 text-center text-[#b0b0ac]">
-                    Are you sure you want to delete your account?
+                    {upperLine}
                     <br />
-                    All your data will be lost !
+                    {lowerLine}
                 </p>
 
                 {/* Buttons */}

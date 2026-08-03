@@ -91,6 +91,8 @@ function ActionRow({
                         onCancel={() => setShowConfirmModal(false)}
                         onConfirm={handleDelete}
                         loading={loading}
+                        upperLine="Are you sure you want to delete your account?"
+                        lowerLine="All your data will be lost !"
                     />
                 )
             }
