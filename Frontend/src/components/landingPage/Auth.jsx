@@ -3,8 +3,11 @@ import { useState } from 'react';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from '../../context/AuthContext.jsx';
+import { Eye, EyeOff } from "lucide-react";
 
 function Auth() {
+
+    const [showPassword, setShowPassword] = useState(false);
 
     const [isLogin, setIsLogin] = useState(true);
 
@@ -299,13 +302,23 @@ function Auth() {
                                 />
                             )}
 
-                            <input
-                                type="password"
-                                placeholder="Password"
-                                className="w-full rounded-lg border border-zinc-700 bg-zinc-800 px-4 py-3 outline-none focus:border-violet-500"
-                                value={password}
-                                onChange={(e) => { setPassword(e.target.value); setError(""); }}
-                            />
+                            <div className="relative">
+                                <input
+                                    type={showPassword ? "text" : "password"}
+                                    placeholder="Password"
+                                    className="w-full rounded-lg border border-zinc-700 bg-zinc-800 px-4 py-3 outline-none focus:border-violet-500"
+                                    value={password}
+                                    onChange={(e) => { setPassword(e.target.value); setError(""); }}
+                                />
+
+                                <button
+                                    type="button"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-black cursor-pointer"
+                                >
+                                    {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                                </button>
+                            </div>
 
                             <button disabled={loading} type='submit' className="w-full cursor-pointer rounded-lg bg-violet-600 py-3 font-semibold transition hover:bg-violet-700">
                                 {loading

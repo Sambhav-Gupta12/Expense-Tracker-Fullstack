@@ -13,13 +13,13 @@ function PrivacyCard() {
 
                 <ActionRow
                     title="Export all data"
-                    subtitle="Download as CSV or PDF"
+                    subtitle="Download as CSV or PDF (Coming soon...)"
                     button="Export"
                 />
 
                 <ActionRow
                     title="Linked accounts"
-                    subtitle="Connect bank / UPI"
+                    subtitle="Connect bank / UPI (Coming soon...)"
                     button="Manage"
                 />
 

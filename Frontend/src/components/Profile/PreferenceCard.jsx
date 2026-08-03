@@ -23,18 +23,18 @@ function PreferenceCard() {
 
                 <ToggleRow
                     title="Dark mode"
-                    subtitle="Toggle app theme"
+                    subtitle="Toggle app theme (Coming soon...)"
                 />
 
                 <ToggleRow
                     title="Budget alerts"
-                    subtitle="Notify at 80% usage"
+                    subtitle="Notify at 80% usage (Coming soon...)"
                     enabled
                 />
 
                 <ToggleRow
                     title="Monthly report email"
-                    subtitle="Summary on 1st of month"
+                    subtitle="Summary on 1st of month (Coming soon...)"
                     enabled
                 />
 
