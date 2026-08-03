@@ -343,8 +343,6 @@ function AddExpense() {
                     onClose={() => setShowOther(false)}
                     setCategory={setCategory}
                     setCustomIcon={setCustomIcon}
-                    initialCategory={category}
-                    initialIcon={customIcon}
                   />
                 )}
               </div>

@@ -4,7 +4,7 @@ import { useBudget } from "../../context/BudgetContext";
 import axios from 'axios';
 import toast from "react-hot-toast";
 
-function AddBudget({ onClose }) {
+function AddBudget({ onClose, selectedMonth, selectedYear }) {
 
     const currentYear = new Date().getFullYear();
 
@@ -16,9 +16,14 @@ function AddBudget({ onClose }) {
 
     const { budget, setBudget } = useBudget();
     const [inputValue, setInputValue] = useState(budget);
-    const [month, setMonth] = useState(String(new Date().getMonth() + 1).padStart(2, "0"))
-    const [year, setYear] = useState(currentYear)
+    const [month, setMonth] = useState(
+        selectedMonth ?? String(new Date().getMonth() + 1).padStart(2, "0")
+    );
 
+    const [year, setYear] = useState(
+        Number(selectedYear ?? currentYear)
+    );
+    
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
     const [loading, setloading] = useState(false);
@@ -73,7 +78,7 @@ function AddBudget({ onClose }) {
                 error.response?.data?.message ||
                 "Unable to add budget."
             );
-        }finally{
+        } finally {
             setloading(false);
         }
     }

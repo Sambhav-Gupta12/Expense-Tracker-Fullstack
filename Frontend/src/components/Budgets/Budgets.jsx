@@ -5,12 +5,14 @@ import AddCategoryBudget from './AddCategoryBudget';
 import AddBudget from './AddBudget';
 import { useBudget } from "../../context/BudgetContext";
 import toast from "react-hot-toast";
+import axios from 'axios';
 
 function Budgets() {
   const { expenses } = useExpense();
-  const { budget } = useBudget();
+  const { budget, setBudget } = useBudget();
   const [showModal, setShowModal] = useState(false)
   const [showInput, setShowInput] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const currentMonth = new Date().toLocaleString("en-US", {
     month: "long",
@@ -112,6 +114,35 @@ function Budgets() {
 
   const remaining = budgetAmount - totalSpent;
 
+  const handleBudgetDelete = async () => {
+
+    if (!currentBudget) {
+      toast.error("No budget found for this month.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      await axios.delete(`http://localhost:8000/api/v1/budgets/delete-budget/${currentBudget._id}`,
+        {
+          withCredentials: true,
+        }
+      )
+
+      setBudget(prev =>
+        prev.filter(bud => bud._id !== currentBudget._id)
+      );
+
+      toast.success("Budget deleted successfully!");
+
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Unable to delete budget.")
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
     <div className='w-full h-full rounded-r-2xl bg-[#30302e] pt-4 pb-17 md:py-4 px-10 overflow-scroll no-scrollbar'>
       <div className="flex flex-col sm:flex-row justify-around">
@@ -160,14 +191,26 @@ function Budgets() {
           </button>
 
           {showInput && (
-            <AddBudget onClose={() => setShowInput(false)} />
+            <AddBudget
+              onClose={() => setShowInput(false)}
+              selectedMonth={month}
+              selectedYear={year}
+            />
           )}
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 md:mx-45 gap-4 mt-6">
         <div className='flex flex-col bg-[#262624] border-[1.5px] border-[#494945] rounded-lg py-4 px-4'>
-          <div className='font-semibold text-[15px] text-[#cbcac4]'>Total budget</div>
+          <div className="flex justify-between">
+            <div className='font-semibold text-[15px] text-[#cbcac4]'>Total budget</div>
+            <button
+              onClick={handleBudgetDelete}
+              className="text-white/60 hover:text-red-600 text-xl cursor-pointer"
+            >
+              ✕
+            </button>
+          </div>
           <div className="total text-white text-[25px] font-semibold">₹ {budgetAmount}</div>
         </div>
 
