@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useBudget } from "../../context/BudgetContext";
 import axios from 'axios';
 import toast from "react-hot-toast";
-import { API } from "../utils/api";
+import { API } from '../../utils/api.js'
 
 function AddBudget({ onClose, selectedMonth, selectedYear }) {
 

@@ -5,7 +5,7 @@ import { useIncome } from '../../context/IncomeContext';
 import OtherExp from './OtherExp';
 import axios from 'axios';
 import toast from 'react-hot-toast'
-import { API } from "../utils/api";
+import { API } from '../../utils/api.js'
 
 function AddExpense() {
 

@@ -6,7 +6,7 @@ import AddBudget from './AddBudget';
 import { useBudget } from "../../context/BudgetContext";
 import toast from "react-hot-toast";
 import axios from 'axios';
-import { API } from "../utils/api";
+import { API } from '../../utils/api.js'
 
 function Budgets() {
   const { expenses } = useExpense();

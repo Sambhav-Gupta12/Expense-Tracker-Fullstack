@@ -5,7 +5,7 @@ import AddCategoryBudget from './AddCategoryBudget';
 import { useCatBudget } from "../../context/CatBudContext";
 import axios from 'axios';
 import toast from 'react-hot-toast';
-import { API } from "../utils/api";
+import { API } from '../../utils/api.js'
 
 
 function CategoryBudget({ expenses, month, year }) {

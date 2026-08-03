@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
-import { API } from "../utils/api";
+import { API } from '../../utils/api.js'
 
 function EditPassword({ onCancel }) {
     const [oldPassword, setOldPassword] = useState("");

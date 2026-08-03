@@ -7,7 +7,7 @@ import EditExpense from './EditExpense';
 import EditIncome from "./EditIncome";
 import ConfirmDelete from '../confirmModal/ConfirmDelete.jsx'
 import toast from 'react-hot-toast';
-import { API } from "../utils/api";
+import { API } from '../../utils/api.js'
 
 function TransactionCard({ showAll, transactions }) {
 

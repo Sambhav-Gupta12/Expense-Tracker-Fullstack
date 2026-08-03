@@ -9,7 +9,7 @@ import { useBudget } from '../../context/BudgetContext.jsx'
 import { useCatBudget } from '../../context/CatBudContext.jsx'
 import toast from 'react-hot-toast';
 import ConfirmDelete from '../confirmModal/ConfirmDelete.jsx';
-import { API } from "../utils/api";
+import { API } from '../../utils/api.js'
 
 function ActionRow({
     title,

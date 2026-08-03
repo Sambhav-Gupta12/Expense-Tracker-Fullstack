@@ -3,7 +3,7 @@ import axios from 'axios';
 import toast from 'react-hot-toast'
 import OtherExp from '../AddExpense/OtherExp.jsx'
 import { useExpense } from "../../context/ExpenseContext.jsx";
-import { API } from "../utils/api";
+import { API } from '../../utils/api.js'
 
 function EditExpense({ transaction, onCancel }) {
 

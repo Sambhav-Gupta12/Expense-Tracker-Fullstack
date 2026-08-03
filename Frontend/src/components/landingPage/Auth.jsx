@@ -4,7 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from '../../context/AuthContext.jsx';
 import { Eye, EyeOff } from "lucide-react";
-import { API } from "../utils/api";
+import { API } from '../../utils/api.js'
 
 function Auth() {
 

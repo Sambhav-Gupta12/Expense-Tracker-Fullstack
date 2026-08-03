@@ -12,7 +12,7 @@ import ConfirmLogout from '../confirmModal/ConfirmLogout.jsx';
 import EditProfile from './EditProfile.jsx';
 import EditPassword from './EditPassword.jsx';
 import toast from 'react-hot-toast';
-import { API } from "../utils/api";
+import { API } from '../../utils/api.js'
 
 function ProfileCard() {
 

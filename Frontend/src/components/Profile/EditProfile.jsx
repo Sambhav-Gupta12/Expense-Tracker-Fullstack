@@ -3,7 +3,7 @@ import { useAuth } from '../../context/AuthContext';
 import axios from 'axios';
 import toast from 'react-hot-toast'
 import EditPassword from './EditPassword';
-import { API } from "../utils/api";
+import { API } from '../../utils/api.js'
 
 function EditProfile({ onCancel, onChangePassword }) {
 
