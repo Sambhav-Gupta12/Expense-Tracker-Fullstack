@@ -76,7 +76,7 @@ const updateExpense = asyncHandler(async (req, res) => {
     // find by id and update
     // send response
 
-    const { title, amount, category, paymentMethod, account, date, note } = req.body
+    const { title, amount, category, paymentMethod, account, date, note, categoryIcon } = req.body
 
     if (
         !title?.trim() ||
@@ -113,7 +113,8 @@ const updateExpense = asyncHandler(async (req, res) => {
                 paymentMethod,
                 account,
                 date,
-                note: note?.trim()
+                note: note?.trim(),
+                categoryIcon
             }
         },
         { new: true }

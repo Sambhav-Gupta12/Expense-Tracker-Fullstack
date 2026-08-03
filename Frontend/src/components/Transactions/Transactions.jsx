@@ -227,12 +227,13 @@ function Transactions() {
       </div>
 
       <div className="rounded-lg bg-[#262624] mt-5 mb-5 border-[1.5px] border-[#494945] ">
-        <div className="hidden md:grid grid-cols-[2.1fr_1fr_1fr_1fr_1fr] rounded-t-lg justify-around py-2 pl-17 border-b-[1.5px] border-[#494945]">
+        <div className="hidden md:grid grid-cols-[2.1fr_1fr_1fr_1fr_1fr_50px] rounded-t-lg justify-around py-2 pl-17 border-b-[1.5px] border-[#494945]">
           <div className='text-[#9d9d99]'>Description</div>
           <div className='text-[#9d9d99]'>Category</div>
           <div className='text-[#9d9d99]'>Payment</div>
           <div className='text-[#9d9d99]'>Amount</div>
           <div className='text-[#9d9d99]'>Date</div>
+          <div></div>
         </div>
         <TransactionCard showAll={showAll} transactions={filteredTransactions} />
         <div className="flex rounded-b-lg justify-between px-10 py-2 ">

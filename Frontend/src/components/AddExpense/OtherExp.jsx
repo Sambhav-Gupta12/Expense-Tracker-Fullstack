@@ -1,11 +1,15 @@
-import React from 'react'
-import { useState } from 'react';
+import React, { useEffect, useState } from "react";
 import { useBudget } from "../../context/BudgetContext";
 
-function OtherExp({ onClose, setCategory, setCustomIcon }) {
+function OtherExp({ onClose, setCategory, setCustomIcon, initialCategory = "", initialIcon = "" }) {
 
-    const [customCategory, setCustomCategory] = useState("");
-    const [icon, setIcon] = useState("");
+    const [customCategory, setCustomCategory] = useState(initialCategory);
+    const [icon, setIcon] = useState(initialIcon);
+
+    useEffect(() => {
+        setCustomCategory(initialCategory);
+        setIcon(initialIcon);
+    }, [initialCategory, initialIcon]);
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center">

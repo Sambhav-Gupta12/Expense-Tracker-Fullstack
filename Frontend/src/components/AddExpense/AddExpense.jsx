@@ -44,7 +44,7 @@ function AddExpense() {
     setError("");
     setSuccess("");
 
-    if (!amount.trim()) {
+    if (!amount) {
       toast.error("Amount is required.");
       return;
     }
@@ -108,10 +108,6 @@ function AddExpense() {
 
       toast.success("Expense added successfully!");
 
-      setTimeout(() => {
-        setSuccess("");
-      }, 3000);
-
     } catch (error) {
 
       toast.error(error.response?.data?.message || "Unable to add expense.")
@@ -129,7 +125,7 @@ function AddExpense() {
     setError("");
     setSuccess("");
 
-    if (!amount.trim()) {
+    if (!amount) {
       toast.error("Amount is required.");
       return;
     }
@@ -219,7 +215,7 @@ function AddExpense() {
 
           <div className="Trans-type flex justify-center mt-2 px-6">
             <button
-              onClick={() => { setTransType("expense"), setCategory("Food") }}
+              onClick={() => { setTransType("expense"), setCategory("Food"), setSelectedButton("Food"), setShowOther(false); }}
               className={`px-6 py-2 w-56 rounded-l-lg text-sm font-medium transition-all duration-300 cursor-pointer 
       ${transType === "expense"
                   ? "bg-white text-red-500"
@@ -347,6 +343,8 @@ function AddExpense() {
                     onClose={() => setShowOther(false)}
                     setCategory={setCategory}
                     setCustomIcon={setCustomIcon}
+                    initialCategory={category}
+                    initialIcon={customIcon}
                   />
                 )}
               </div>
