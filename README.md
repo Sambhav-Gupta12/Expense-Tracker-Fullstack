@@ -296,24 +296,37 @@ Dashboard Analytics
 
 ## Dashboard
 
+<<<<<<< HEAD
 ![Dashboard](./Frontend/src/assets/DashboardPage.png)
+=======
+![Dashboard](./assets/DashboardPage.png)
+>>>>>>> be335d091c24e60acc1de29ef36dc40587d28fe1
 
 ---
 
 ## Transactions
 
+<<<<<<< HEAD
 ![Transactions](./Frontend/src/assets/TransactionsPage.png)
+=======
+![Transactions](./assets/TransactionsPage.png)
+>>>>>>> be335d091c24e60acc1de29ef36dc40587d28fe1
 
 ---
 
 ## Budgets
 
+<<<<<<< HEAD
 ![Budgets](./Frontend/src/assets/BudgetPage.png)
+=======
+![Budgets](./assets/BudgetPage.png)
+>>>>>>> be335d091c24e60acc1de29ef36dc40587d28fe1
 
 ---
 
 ## Profile
 
+<<<<<<< HEAD
 ![Profile](./Frontend/src/assets/ProfilePage.png)
 
 ---
@@ -321,12 +334,25 @@ Dashboard Analytics
 ## Add-Transactions
 
 ![Add-Transactions](./Frontend/src/assets/Add-Transactions.png)
+=======
+![Profile](./assets/ProfilePage.png)
+
+---
+
+## Add-transactions
+
+![Add-transactions](./assets/Add-transactions.png)
+>>>>>>> be335d091c24e60acc1de29ef36dc40587d28fe1
 
 ---
 
 ## Landing-Page
 
+<<<<<<< HEAD
 ![Landing-Page](./Frontend/src/assets/Landing-Page.png)
+=======
+![Landing-Page](./assets/Landing-page.png)
+>>>>>>> be335d091c24e60acc1de29ef36dc40587d28fe1
 
 ---
 
