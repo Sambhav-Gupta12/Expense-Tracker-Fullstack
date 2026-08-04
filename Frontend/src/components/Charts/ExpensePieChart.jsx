@@ -82,7 +82,7 @@ function ExpensePieChart({ transactions }) {
 
           <g>
             <text
-              x={isMobile ? "48%" : "49%"}
+              x={isMobile ? "48.5%" : "50%"}
               y={isMobile ? "35%" : "42%"}
               textAnchor="middle"
               fill="white"
@@ -93,7 +93,7 @@ function ExpensePieChart({ transactions }) {
             </text>
 
             <text
-              x={isMobile ? "48.5%" : "49%"}
+              x={isMobile ? "49.5%" : "50%"}
               y={isMobile ? "39%" : "48%"}
               textAnchor="middle"
               fill="#9CA3AF"
