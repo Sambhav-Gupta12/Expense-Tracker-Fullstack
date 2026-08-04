@@ -8,6 +8,8 @@ function EditPassword({ onCancel }) {
     const [newPassword, setNewPassword] = useState("");
     const [confPassword, setConfPassword] = useState("");
 
+    const [loading, setloading] = useState(false);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -32,6 +34,7 @@ function EditPassword({ onCancel }) {
         }
 
         try {
+            setloading(true);
 
             const passwordData = {
                 oldPassword,
@@ -52,6 +55,8 @@ function EditPassword({ onCancel }) {
 
         } catch (error) {
             toast.error(error.response?.data?.message || "Unable to change password")
+        } finally{
+            setloading(false);
         }
     };
 
@@ -147,9 +152,10 @@ function EditPassword({ onCancel }) {
 
                         <button
                             type="submit"
+                            disabled={loading}
                             className="px-6 h-10 rounded-lg bg-[#4a41ac] text-white font-semibold hover:bg-[#5a50cf] transition cursor-pointer"
                         >
-                            Update Password
+                            {loading ? "Updating password..." : "Update password"}
                         </button>
 
                     </div>

@@ -48,8 +48,6 @@ function AddBudget({ onClose, selectedMonth, selectedYear }) {
                 year
             }
 
-            console.log(newBudget);
-
             const response = await axios.post(`${API}/budgets/add-budget`,
                 newBudget,
                 {

@@ -23,6 +23,8 @@ function AddExpense() {
 
   const [showOther, setShowOther] = useState(false)
 
+  const [loading, setloading] = useState(false);
+
   const { setExpenses } = useExpense();
   const { setIncomes } = useIncome()
 
@@ -64,6 +66,7 @@ function AddExpense() {
     }
 
     try {
+      setloading(true);
 
       const newExpense = {
         title: title,
@@ -102,6 +105,8 @@ function AddExpense() {
 
       toast.error(error.response?.data?.message || "Unable to add expense.")
 
+    } finally{
+      setloading(false);
     }
   };
 
@@ -128,6 +133,7 @@ function AddExpense() {
     }
 
     try {
+      setloading(true);
 
       const newIncome = {
         title: title,
@@ -163,6 +169,8 @@ function AddExpense() {
         "Unable to add income."
       );
 
+    } finally{
+      setloading(false);
     }
   };
 
@@ -359,9 +367,10 @@ function AddExpense() {
               </button>
 
               <button
+                disabled={loading}
                 className='w-1/2 border-[1.5px] rounded-lg font-semibold text-white h-10 border-[#80807a] hover:bg-[#272726] duration-300 cursor-pointer'
                 onClick={() => { handleExpenseSubmit(), console.log(amount), console.log(date), console.log(title), console.log(payment), console.log(account), console.log(notes), console.log(category), console.log(transType) }}>
-                Save expense →
+                {loading ? "Saving expense..." : "Save expense →"}
               </button>
             </div>
           </div>) : (
@@ -452,9 +461,10 @@ function AddExpense() {
                 </button>
 
                 <button
+                  disabled={loading}
                   className='w-1/2 border-[1.5px] rounded-lg font-semibold text-white h-10 border-[#80807a] hover:bg-[#272726] duration-300 cursor-pointer'
                   onClick={() => { handleIncomeSubmit(), console.log(amount), console.log(date), console.log(title), console.log(payment), console.log(account), console.log(notes), console.log(category), console.log(transType) }}>
-                  Save income →
+                  {loading ? "Saving income..." : "Save income →"}
                 </button>
               </div>
             </div>

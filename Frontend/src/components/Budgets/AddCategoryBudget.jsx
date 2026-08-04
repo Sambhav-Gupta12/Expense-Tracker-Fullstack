@@ -12,6 +12,8 @@ function AddCategoryBudget({ onClose, month, year }) {
   const [selected, setSelected] = useState("")
   const [selectedIcon, setSelectedIcon] = useState("📦");
 
+  const [loading, setloading] = useState(false);
+
   const { catBudgets, setCatBudgets } = useCatBudget();
 
   const [inputBud, setInputBud] = useState("");
@@ -67,6 +69,7 @@ function AddCategoryBudget({ onClose, month, year }) {
     }
 
     try {
+      setloading(true);
 
       const newCatBudget = {
         amount: Number(inputBud),
@@ -96,6 +99,8 @@ function AddCategoryBudget({ onClose, month, year }) {
 
       toast.error(error.response?.data?.message || "Unable to add budget.")
 
+    } finally {
+      setloading(false);
     }
   }
 
@@ -268,9 +273,10 @@ function AddCategoryBudget({ onClose, month, year }) {
 
           <button
             onClick={handleCatBudSubmit}
+            disabled={loading}
             className="px-14 py-1 bg-white/10 border-[1.5px] border-gray-600 rounded-lg text-white cursor-pointer hover:bg-blue-500 duration-300"
           >
-            Add Budget →
+            {loading ? "Adding budget..." : "Add budget →"}
           </button>
         </div>
 

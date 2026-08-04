@@ -74,7 +74,7 @@ function Budgets() {
     try {
       setLoading(true);
 
-      await axios.delete(`${API}budgets/delete-budget/${currentBudget._id}`,
+      await axios.delete(`${API}/budgets/delete-budget/${currentBudget._id}`,
         {
           withCredentials: true,
         }
