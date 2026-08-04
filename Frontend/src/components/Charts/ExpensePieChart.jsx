@@ -54,7 +54,7 @@ function ExpensePieChart({ transactions }) {
     <div className="w-full min-w-0 bg-[#262624] text-white p-4 rounded-lg">Spending - By Category
       <ResponsiveContainer style={{ outline: "none" }} width="100%" height={300}>
         <PieChart
-          margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+          margin={{ top: 20, right: 45, left: 45, bottom: 5 }}
         >
           <Pie
             data={groupedExpenses}
@@ -62,12 +62,14 @@ function ExpensePieChart({ transactions }) {
             nameKey="category"
             cx="50%"
             cy="50%"
-            outerRadius={window.innerWidth < 768 ? 70 : 100}
-            innerRadius={window.innerWidth < 768 ? 40 : 60}  // donut shape — hover effect acha lagta hai
-            paddingAngle={3}  // slices ke beech gap
-            activeShape={{ outerRadius: 110 }}
+            outerRadius={window.innerWidth < 768 ? 65 : 85}
+            innerRadius={window.innerWidth < 768 ? 38 : 52}
+            activeShape={{ outerRadius: window.innerWidth < 768 ? 72 : 92 }}
+            paddingAngle={3}
             fill="#06B6D4"
-            label={({ name, amount }) => `${name}: ₹${amount}`}
+            label={({ name, amount }) =>
+              `${name}: ₹${formatAmount(amount)}`
+            }
             labelLine={true}
             style={{
               fontSize: isMobile ? "10px" : "15px"
