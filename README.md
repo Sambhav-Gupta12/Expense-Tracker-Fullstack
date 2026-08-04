@@ -296,37 +296,37 @@ Dashboard Analytics
 
 ## Dashboard
 
-![Dashboard](./screenshots/DashboardPage.png)
+![Dashboard](./assets/DashboardPage.png)
 
 ---
 
 ## Transactions
 
-![Transactions](./screenshots/TransactionsPage.png)
+![Transactions](./assets/TransactionsPage.png)
 
 ---
 
 ## Budgets
 
-![Budgets](./screenshots/BudgetPage.png)
+![Budgets](./assets/BudgetPage.png)
 
 ---
 
 ## Profile
 
-![Profile](./screenshots/ProfilePage.png)
+![Profile](./assets/ProfilePage.png)
 
 ---
 
 ## Add-transactions
 
-![Add-transactions](./screenshots/Add-transactions.png)
+![Add-transactions](./assets/Add-transactions.png)
 
 ---
 
 ## Landing-Page
 
-![Landing-Page](./screenshots/Landing-page.png)
+![Landing-Page](./assets/Landing-page.png)
 
 ---
 
