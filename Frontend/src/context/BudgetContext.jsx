@@ -2,6 +2,7 @@ import { createContext, useContext, useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "./AuthContext";
+import { API } from "../utils/api.js";
 
 const BudgetContext = createContext();
 
@@ -14,7 +15,7 @@ export const BudgetProvider = ({ children }) => {
     try {
 
       const response = await axios.get(
-        "http://localhost:8000/api/v1/budgets/get-budgets",
+        `${API}/budgets/get-budgets`,
         {
           withCredentials: true,
         }

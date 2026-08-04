@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { useAuth } from "./AuthContext";
 import axios from "axios";
+import { API } from "../utils/api";
 
 const CatBudContext = createContext();
 
@@ -13,7 +14,7 @@ export const CatBudProvider = ({ children }) => {
     try {
 
       const response = await axios.get(
-        "http://localhost:8000/api/v1/category-budgets/get-category-budgets",
+        `${API}/category-budgets/get-category-budgets`,
         {
           withCredentials: true,
         }

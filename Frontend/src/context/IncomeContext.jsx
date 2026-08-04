@@ -1,6 +1,7 @@
 import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
 import { useAuth } from "./AuthContext";
+import { API } from "../utils/api";
 
 const IncomeContext = createContext();
 
@@ -13,7 +14,7 @@ export const IncomeProvider = ({ children }) => {
     try {
 
       const response = await axios.get(
-        "http://localhost:8000/api/v1/incomes/get-incomes",
+        `${API}/incomes/get-incomes`,
         {
           withCredentials: true,
         }

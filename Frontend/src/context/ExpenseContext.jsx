@@ -1,6 +1,7 @@
 import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
 import { useAuth } from "./AuthContext";
+import { API } from "../utils/api";
 
 const ExpenseContext = createContext();
 
@@ -13,7 +14,7 @@ export const ExpenseProvider = ({ children }) => {
     try {
 
       const response = await axios.get(
-        "http://localhost:8000/api/v1/expenses/get-expenses",
+        `${API}/expenses/get-expenses`,
         {
           withCredentials: true,
         }
