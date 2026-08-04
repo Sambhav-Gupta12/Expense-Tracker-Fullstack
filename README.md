@@ -296,25 +296,37 @@ Dashboard Analytics
 
 ## Dashboard
 
-> Add your dashboard screenshot here
+![Dashboard](./Frontend/src/assets/DashboardPage.png)
 
 ---
 
 ## Transactions
 
-> Add transaction page screenshot here
+![Transactions](./Frontend/src/assets/TransactionsPage.png)
 
 ---
 
-## Analytics
+## Budgets
 
-> Add analytics screenshot here
+![Budgets](./Frontend/src/assets/BudgetPage.png)
 
 ---
 
 ## Profile
 
-> Add profile screenshot here
+![Profile](./Frontend/src/assets/ProfilePage.png)
+
+---
+
+## Add-Transactions
+
+![Add-Transactions](./Frontend/src/assets/Add-Transactions.png)
+
+---
+
+## Landing-Page
+
+![Landing-Page](./Frontend/src/assets/Landing-Page.png)
 
 ---
 
