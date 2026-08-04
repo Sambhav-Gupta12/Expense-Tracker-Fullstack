@@ -167,7 +167,7 @@ Image Storage → **Cloudinary**
 
 # 📂 Project Structure
 
-
+```
 Expense-Tracker-Fullstack
 │
 ├── Frontend
@@ -191,7 +191,7 @@ Expense-Tracker-Fullstack
     ├── utils
     ├── db
     └── cloudinary
-
+```
 
 ---
 
@@ -199,11 +199,11 @@ Expense-Tracker-Fullstack
 
 ## Clone Repository
 
-bash
+```bash
 git clone https://github.com/Sambhav-Gupta12/Expense-Tracker-Fullstack.git
 
 cd Expense-Tracker-Fullstack
-
+```
 
 ---
 
@@ -271,7 +271,7 @@ npm run dev
 
 # 📊 Application Flow
 
-
+```
 User Authentication
         │
         ▼
@@ -288,7 +288,7 @@ MongoDB Database
         │
         ▼
 Dashboard Analytics
-
+```
 
 ---
 
@@ -393,7 +393,7 @@ This project is licensed under the MIT License.
 **Sambhav Gupta**
 
 - GitHub: https://github.com/Sambhav-Gupta12
-- LinkedIn: *(Add your LinkedIn profile)*
+- LinkedIn: https://www.linkedin.com/in/sambhav-gupta-494347369/
 
 ---
 
