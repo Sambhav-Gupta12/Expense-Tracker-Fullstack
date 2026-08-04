@@ -90,10 +90,10 @@ function ExpensePieChart({ transactions }) {
           <g>
             <text
               x={isMobile ? "48.5%" : "50%"}
-              y={isMobile ? "35%" : "42%"}
+              y={isMobile ? "39%" : "42%"}
               textAnchor="middle"
               fill="white"
-              fontSize={isMobile ? 18 : 24}
+              fontSize={isMobile ? 12 : 24}
               fontWeight="bold"
             >
               ₹{formatAmount(totalSpent)}
@@ -101,10 +101,10 @@ function ExpensePieChart({ transactions }) {
 
             <text
               x={isMobile ? "49.5%" : "50%"}
-              y={isMobile ? "39%" : "48%"}
+              y={isMobile ? "43%" : "48%"}
               textAnchor="middle"
               fill="#9CA3AF"
-              fontSize={isMobile ? 12 : 14}
+              fontSize={isMobile ? 8 : 14}
             >
               Total Spent
             </text>
