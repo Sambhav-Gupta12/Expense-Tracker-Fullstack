@@ -1,169 +1,406 @@
 <div align="center">
 
-# 💸 Expense Tracker
+# 💸 SpendWise
 
-**A sleek, modern expense management app built with React.js & Tailwind CSS**
+### Smart Personal Finance Management Application
 
-[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
-[![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
-[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
-[![LocalStorage](https://img.shields.io/badge/LocalStorage-FF6B6B?style=for-the-badge&logo=databricks&logoColor=white)](#)
+Track your income, expenses, budgets and spending insights — all in one secure, responsive, and intuitive platform.
 
 <br/>
 
-> _Track your money. Own your finances. Live intentionally._
+**🌐 Live Demo:** https://expense-tracker-fullstack-flame.vercel.app/
 
 <br/>
 
-![Expense Tracker Preview](https://via.placeholder.com/800x400/1a1a2e/61DAFB?text=Expense+Tracker+App+Preview)
+![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react)
+![Node.js](https://img.shields.io/badge/Node.js-22-339933?style=for-the-badge&logo=node.js)
+![Express](https://img.shields.io/badge/Express-5-black?style=for-the-badge&logo=express)
+![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-47A248?style=for-the-badge&logo=mongodb)
+![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-4-38B2AC?style=for-the-badge&logo=tailwindcss)
+![JWT](https://img.shields.io/badge/JWT-Authentication-black?style=for-the-badge&logo=jsonwebtokens)
+![Cloudinary](https://img.shields.io/badge/Cloudinary-Image%20Hosting-3448C5?style=for-the-badge&logo=cloudinary)
+![Vercel](https://img.shields.io/badge/Vercel-Frontend-black?style=for-the-badge&logo=vercel)
+![Render](https://img.shields.io/badge/Render-Backend-46E3B7?style=for-the-badge&logo=render)
+
+<br/>
+
+> **Manage your money smarter, not harder.**
 
 </div>
 
 ---
 
-## ✨ Features
+# 📖 About
 
-| Feature | Description |
-|---|---|
-| ➕ **Add Transactions** | Log expenses and income with title, amount & category |
-| 🗑️ **Delete Entries** | Remove any transaction instantly |
-| 🔍 **Smart Filtering** | Filter by All, Income, or Expense with one click |
-| 💾 **Data Persistence** | All data saved locally — no sign-up needed |
-| 📱 **Fully Responsive** | Looks great on mobile, tablet & desktop |
-| ⚡ **Blazing Fast** | Optimized React rendering for a snappy experience |
+**SpendWise** is a modern **full-stack personal finance management application** built using the **MERN Stack**.
 
----
+It helps users securely manage their finances by allowing them to:
 
-## 🛠️ Tech Stack
+- Track income & expenses
+- Create monthly budgets
+- Set category-wise budgets
+- Visualize spending patterns
+- Monitor financial health through analytics
+- Manage their profile securely
 
-```
-Frontend  →  React.js (Hooks + Context API)
-Styling   →  Tailwind CSS
-Storage   →  Browser LocalStorage
-Bundler   →  Vite / Create React App
-```
+The application is fully responsive and optimized for desktop and mobile devices.
 
 ---
 
-## 🚀 Getting Started
+# ✨ Features
 
-### Prerequisites
-- Node.js `v16+`
-- npm or yarn
+## 🔐 Authentication
 
-### Installation
+- Secure Sign Up & Login
+- JWT Authentication
+- Access & Refresh Token System
+- HTTP Only Cookies
+- Protected Routes
+- Persistent Login Sessions
+
+---
+
+## 💰 Expense Management
+
+- Add Expenses
+- Edit Expenses
+- Delete Expenses
+- Custom Categories
+- Custom Category Icons
+- Filter by Category
+- Real-time Updates
+
+---
+
+## 💵 Income Management
+
+- Add Income
+- Edit Income
+- Delete Income
+- Separate Income Tracking
+
+---
+
+## 📊 Budget Management
+
+- Monthly Budget
+- Category-wise Budgets
+- Remaining Budget
+- Budget Utilization
+- Budget Progress
+
+---
+
+## 📈 Dashboard Analytics
+
+- Income vs Expense Summary
+- Spending by Category (Donut Chart)
+- Daily Expense Trend
+- Financial Overview Cards
+- Recent Transactions
+
+---
+
+## 👤 User Profile
+
+- Update Profile Information
+- Change Avatar
+- Delete Account
+- Secure Logout
+
+---
+
+## 📱 User Experience
+
+- Fully Responsive Design
+- Beautiful Dashboard
+- Interactive Charts
+- Loading Screen
+- Toast Notifications
+- Password Visibility Toggle
+- Smooth Animations
+
+---
+
+# 🛠 Tech Stack
+
+## Frontend
+
+- React 19
+- React Router
+- Context API
+- Axios
+- Tailwind CSS v4
+- Recharts
+- Lucide React
+- React Hot Toast
+- Vite
+
+---
+
+## Backend
+
+- Node.js
+- Express.js
+- MongoDB Atlas
+- Mongoose
+- JWT Authentication
+- Bcrypt
+- Cookie Parser
+- Multer
+- Cloudinary
+- CORS
+
+---
+
+## Deployment
+
+Frontend → **Vercel**
+
+Backend → **Render**
+
+Database → **MongoDB Atlas**
+
+Image Storage → **Cloudinary**
+
+---
+
+# 📂 Project Structure
+
+
+Expense-Tracker-Fullstack
+│
+├── Frontend
+│   ├── src
+│   │
+│   ├── components
+│   ├── context
+│   ├── pages
+│   ├── hooks
+│   ├── utils
+│   ├── assets
+│   └── styles
+│
+└── Backend
+    ├── src
+    │
+    ├── controllers
+    ├── models
+    ├── routes
+    ├── middlewares
+    ├── utils
+    ├── db
+    └── cloudinary
+
+
+---
+
+# 🚀 Getting Started
+
+## Clone Repository
+
+bash
+git clone https://github.com/Sambhav-Gupta12/Expense-Tracker-Fullstack.git
+
+cd Expense-Tracker-Fullstack
+
+
+---
+
+## Backend Setup
 
 ```bash
-# 1. Clone the repository
-git clone https://github.com/your-username/expense-tracker.git
+cd Backend
 
-# 2. Navigate into the project
-cd expense-tracker
-
-# 3. Install dependencies
 npm install
+```
 
-# 4. Start the development server
+Create a `.env`
+
+```env
+PORT=8000
+
+MONGODB_URI=your_mongodb_uri
+
+CORS_ORIGIN=http://localhost:5173
+
+ACCESS_TOKEN_SECRET=your_secret
+
+ACCESS_TOKEN_EXPIRY=1d
+
+REFRESH_TOKEN_SECRET=your_secret
+
+REFRESH_TOKEN_EXPIRY=10d
+
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+
+CLOUDINARY_API_KEY=your_api_key
+
+CLOUDINARY_API_SECRET=your_api_secret
+```
+
+Start Backend
+
+```bash
 npm run dev
 ```
 
-> 🌐 App will be live at `http://localhost:5173`
-
 ---
 
-## 📁 Project Structure
-
-```
-expense-tracker/
-│
-├── public/
-│   └── index.html
-│
-├── src/
-│   ├── components/
-│   │   ├── AddExpense.jsx       # Form to add new transactions
-│   │   ├── ExpenseList.jsx      # Renders transaction list
-│   │   ├── ExpenseItem.jsx      # Single transaction card
-│   │   ├── FilterBar.jsx        # All / Income / Expense tabs
-│   │   └── Summary.jsx          # Balance, income & expense totals
-│   │
-│   ├── context/
-│   │   └── ExpenseContext.jsx   # Global state via Context API
-│   │
-│   ├── hooks/
-│   │   └── useLocalStorage.js   # Custom hook for persistence
-│   │
-│   ├── App.jsx
-│   └── main.jsx
-│
-├── tailwind.config.js
-└── package.json
-```
-
----
-
-## 🎯 How It Works
-
-```
-User adds a transaction
-        ↓
-State updates via Context API
-        ↓
-UI re-renders instantly (React Hooks)
-        ↓
-Data saved to LocalStorage
-        ↓
-On reload → data is restored automatically ✅
-```
-
----
-
-## 📸 Screenshots
-
-<div align="center">
-
-| Dashboard | Add Expense | Filtered View |
-|:---------:|:-----------:|:-------------:|
-| ![Dashboard](https://via.placeholder.com/240x160/1a1a2e/ffffff?text=Dashboard) | ![Add Expense](https://via.placeholder.com/240x160/16213e/61DAFB?text=Add+Expense) | ![Filter](https://via.placeholder.com/240x160/0f3460/ffffff?text=Filtered+View) |
-
-</div>
-
----
-
-## 🤝 Contributing
-
-Contributions are always welcome! Here's how:
+## Frontend Setup
 
 ```bash
-# Fork the repo, then:
-git checkout -b feature/your-feature-name
-git commit -m "feat: add your feature"
-git push origin feature/your-feature-name
-# Open a Pull Request 🎉
+cd Frontend
+
+npm install
 ```
 
-Please follow the existing code style and keep commits descriptive.
+Create a `.env`
+
+```env
+VITE_API_URL=http://localhost:8000/api/v1
+```
+
+Run
+
+```bash
+npm run dev
+```
 
 ---
 
-## 📄 License
+# 📊 Application Flow
 
-This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
+
+User Authentication
+        │
+        ▼
+JWT Token Generation
+        │
+        ▼
+HTTP Only Cookies
+        │
+        ▼
+Protected APIs
+        │
+        ▼
+MongoDB Database
+        │
+        ▼
+Dashboard Analytics
+
 
 ---
 
-## 🙌 Acknowledgements
+# 📸 Screenshots
 
-- [React Docs](https://react.dev/) — for the amazing framework
-- [Tailwind CSS](https://tailwindcss.com/) — for utility-first styling
-- [Shields.io](https://shields.io/) — for the beautiful badges
+## Dashboard
+
+> Add your dashboard screenshot here
+
+---
+
+## Transactions
+
+> Add transaction page screenshot here
+
+---
+
+## Analytics
+
+> Add analytics screenshot here
+
+---
+
+## Profile
+
+> Add profile screenshot here
+
+---
+
+# 🎯 Future Improvements
+
+- Email Verification
+- Forgot Password
+- Dark / Light Theme
+- Export Reports (PDF / CSV)
+- Multiple Currency Support
+- Recurring Transactions
+- Expense Goals
+- AI Spending Insights
+- Monthly Email Reports
+- Bank Integration
+
+---
+
+# 📚 What I Learned
+
+This project helped me gain practical experience in:
+
+- Building REST APIs
+- JWT Authentication
+- Cookie-based Authentication
+- MongoDB & Mongoose
+- Cloudinary Integration
+- React Context API
+- Protected Routes
+- Backend Architecture
+- Deployment on Render
+- Deployment on Vercel
+- Environment Variables
+- Production Debugging
+- Cross-Origin Authentication (CORS)
+- Full Stack Project Deployment
+
+---
+
+# 🤝 Contributing
+
+Contributions are always welcome.
+
+1. Fork the repository
+
+2. Create a new branch
+
+```bash
+git checkout -b feature-name
+```
+
+3. Commit changes
+
+```bash
+git commit -m "Added new feature"
+```
+
+4. Push
+
+```bash
+git push origin feature-name
+```
+
+5. Open a Pull Request
+
+---
+
+# 📄 License
+
+This project is licensed under the MIT License.
+
+---
+
+# 👨‍💻 Author
+
+**Sambhav Gupta**
+
+- GitHub: https://github.com/Sambhav-Gupta12
+- LinkedIn: *(Add your LinkedIn profile)*
 
 ---
 
 <div align="center">
 
-**Made with ❤️ and a lot of ☕**
+### ⭐ If you like this project, consider giving it a Star!
 
-⭐ If you found this useful, consider giving it a star!
+Made with ❤️ using the MERN Stack.
 
 </div>
