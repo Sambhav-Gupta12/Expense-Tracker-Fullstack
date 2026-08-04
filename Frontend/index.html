@@ -1,12 +1,70 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Expense Tracker</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SpendWise</title>
+  <link rel="icon" type="logo image/png" href="/favicon.png" />
+
+  <style>
+    body {
+      margin: 0;
+      background: #262624;
+      font-family: Inter, sans-serif;
+    }
+
+    .loader {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      color: white;
+    }
+
+    .loader img {
+      width: 90px;
+      height: 90px;
+      object-fit: contain;
+      animation: pulse 1.5s infinite;
+    }
+
+    .loader p {
+      margin: 0;
+      font-size: 15px;
+      color: rgba(255, 255, 255, .7);
+      letter-spacing: .5px;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        opacity: .8;
+      }
+
+      50% {
+        transform: scale(1.05);
+        opacity: 1;
+      }
+
+      100% {
+        transform: scale(1);
+        opacity: .8;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="root">
+    <div class="loader">
+      <img src="/Main image.png" alt="SpendWise Logo" width="80" />
+      <p>Loading SpendWise...</p>
+    </div>
+  </div>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+
 </html>
