@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState } from 'react';
 import axios from "axios";
+import { Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from '../../context/AuthContext.jsx';
 import { Eye, EyeOff } from "lucide-react";
@@ -22,11 +23,11 @@ function Auth() {
 
     const [loading, setLoading] = useState(false);
 
-    const { user, loading, setUser } = useAuth();
+    const { user, loading: authLoading, setUser } = useAuth();
 
     const navigate = useNavigate();
 
-    if (loading) {
+    if (authLoading) {
         return <div>Loading...</div>;
     }
 
