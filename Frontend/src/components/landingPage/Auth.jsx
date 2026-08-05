@@ -22,9 +22,17 @@ function Auth() {
 
     const [loading, setLoading] = useState(false);
 
-    const { setUser } = useAuth();
+    const { user, loading, setUser } = useAuth();
 
     const navigate = useNavigate();
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    if (user) {
+        return <Navigate to="/dashboard" replace />;
+    }
 
     const handleLogin = async (e) => {
         e.preventDefault();
