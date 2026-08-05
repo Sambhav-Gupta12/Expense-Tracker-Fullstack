@@ -5,9 +5,12 @@ function RecentTransaction({ transactions }) {
 
     const AllTransactions = [...transactions];
 
+    const hasTransactions = AllTransactions.length > 0;
+
     return (
         <>
-            {AllTransactions.slice(0, 5).map((transaction) => (
+            {
+            hasTransactions ? (AllTransactions.slice(0, 5).map((transaction) => (
                 <div key={transaction._id}>
 
                     {/* Desktop */}
@@ -27,7 +30,7 @@ function RecentTransaction({ transactions }) {
                                 </span>
 
                                 <span className='text-gray-400 text-sm'>
-                                    {transaction.notes}
+                                    {transaction.note || transaction.notes}
                                 </span>
                             </div>
                         </div>
@@ -67,7 +70,7 @@ function RecentTransaction({ transactions }) {
                                 </p>
 
                                 <p className='text-gray-400 text-sm'>
-                                    {transaction.notes}
+                                    {transaction.note || transaction.notes}
                                 </p>
                             </div>
                         </div>
@@ -107,7 +110,20 @@ function RecentTransaction({ transactions }) {
                     </div>
 
                 </div>
-            ))}
+            ))):(
+                <div className="flex flex-col items-center justify-center py-16 text-center">
+            <div className="text-6xl mb-4">🧾</div>
+
+            <h3 className="text-xl font-semibold text-white">
+                No transactions yet
+            </h3>
+
+            <p className="text-gray-400 mt-2 max-w-sm">
+                Your recent expenses and income will appear here once you add your first transaction.
+            </p>
+        </div>
+            )
+            }
         </>
     );
 }

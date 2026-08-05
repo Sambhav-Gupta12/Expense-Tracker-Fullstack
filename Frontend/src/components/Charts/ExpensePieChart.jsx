@@ -50,82 +50,98 @@ function ExpensePieChart({ transactions }) {
 
   const isMobile = window.innerWidth < 768;
 
+  const hasData = groupedExpenses.length > 0;
+
   return (
     <div className="w-full min-w-0 bg-[#262624] text-white p-4 rounded-lg">Spending - By Category
-      <ResponsiveContainer style={{ outline: "none" }} width="100%" height={300}>
-        <PieChart
-          margin={{
-            top: 20,
-            right: isMobile ? 20 : 45,
-            left: isMobile ? 20 : 45,
-            bottom: 5,
-          }}
-        >
-          <Pie
-            data={groupedExpenses}
-            dataKey="amount"
-            nameKey="category"
-            cx="50%"
-            cy="50%"
-            outerRadius={isMobile ? 55 : 85}
-            innerRadius={isMobile ? 32 : 52}
-            activeShape={{
-              outerRadius: isMobile ? 62 : 92,
-            }}
-            paddingAngle={3}
-            fill="#06B6D4"
-            label={({ name, amount }) =>
-              `${name}: ₹${formatAmount(amount)}`
-            }
-            labelLine={true}
-            style={{
-              fontSize: isMobile ? "9px" : "15px",
+      {
+        hasData ? (<ResponsiveContainer style={{ outline: "none" }} width="100%" height={300}>
+          <PieChart
+            margin={{
+              top: 20,
+              right: isMobile ? 20 : 45,
+              left: isMobile ? 20 : 45,
+              bottom: 5,
             }}
           >
-            {groupedExpenses.map((entry, index) => (
-              <Cell key={index} fill={COLORS[index % COLORS.length]} />
-            ))}
-          </Pie>
-
-          <g>
-            <text
-              x={isMobile ? "49.5%" : "50%"}
-              y={isMobile ? "39%" : "42%"}
-              textAnchor="middle"
-              fill="white"
-              fontSize={isMobile ? 12 : 24}
-              fontWeight="bold"
+            <Pie
+              data={groupedExpenses}
+              dataKey="amount"
+              nameKey="category"
+              cx="50%"
+              cy="50%"
+              outerRadius={isMobile ? 55 : 85}
+              innerRadius={isMobile ? 32 : 52}
+              activeShape={{
+                outerRadius: isMobile ? 62 : 92,
+              }}
+              paddingAngle={3}
+              fill="#06B6D4"
+              label={({ name, amount }) =>
+                `${name}: ₹${formatAmount(amount)}`
+              }
+              labelLine={true}
+              style={{
+                fontSize: isMobile ? "9px" : "15px",
+              }}
             >
-              ₹{formatAmount(totalSpent)}
-            </text>
+              {groupedExpenses.map((entry, index) => (
+                <Cell key={index} fill={COLORS[index % COLORS.length]} />
+              ))}
+            </Pie>
 
-            <text
-              x={isMobile ? "49.5%" : "50%"}
-              y={isMobile ? "43%" : "48%"}
-              textAnchor="middle"
-              fill="#9CA3AF"
-              fontSize={isMobile ? 8 : 14}
-            >
-              Total Spent
-            </text>
-          </g>
+            <g>
+              <text
+                x={isMobile ? "49.5%" : "50%"}
+                y={isMobile ? "39%" : "42%"}
+                textAnchor="middle"
+                fill="white"
+                fontSize={isMobile ? 12 : 24}
+                fontWeight="bold"
+              >
+                ₹{formatAmount(totalSpent)}
+              </text>
 
-          <Tooltip
-            formatter={(value, name) => {
-              const total = groupedExpenses.reduce((sum, item) => sum + item.amount, 0);
-              const percent = ((value / total) * 100).toFixed(1);
-              return [`${percent}%`, name];
-            }}
-            contentStyle={{
-              backgroundColor: "#1F2038",
-              border: "none",
-              borderRadius: "10px",
-              color: "#fff",
-            }}
-          />
-          <Legend wrapperStyle={{ color: "#E5E7EB", paddingTop: "32px", fontSize: "14px" }} />
-        </PieChart>
-      </ResponsiveContainer>
+              <text
+                x={isMobile ? "49.5%" : "50%"}
+                y={isMobile ? "43%" : "48%"}
+                textAnchor="middle"
+                fill="#9CA3AF"
+                fontSize={isMobile ? 8 : 14}
+              >
+                Total Spent
+              </text>
+            </g>
+
+            <Tooltip
+              formatter={(value, name) => {
+                const total = groupedExpenses.reduce((sum, item) => sum + item.amount, 0);
+                const percent = ((value / total) * 100).toFixed(1);
+                return [`${percent}%`, name];
+              }}
+              contentStyle={{
+                backgroundColor: "#1F2038",
+                border: "none",
+                borderRadius: "10px",
+                color: "#fff",
+              }}
+            />
+            <Legend wrapperStyle={{ color: "#E5E7EB", paddingTop: "32px", fontSize: "14px" }} />
+          </PieChart>
+        </ResponsiveContainer>) : (
+          <div className="h-75 flex flex-col items-center justify-center text-center">
+            <div className="text-6xl mb-4">📊</div>
+
+            <h3 className="text-xl font-semibold text-white">
+              No expense data yet
+            </h3>
+
+            <p className="text-gray-400 mt-2 max-w-xs">
+              Add your first expense to see category-wise spending analytics.
+            </p>
+          </div>
+        )
+      }
     </div>
   );
 }

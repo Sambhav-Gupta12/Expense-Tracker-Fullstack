@@ -94,7 +94,7 @@ function NavBar() {
                       items-center
                       py-2 z-50
                       rounded-2xl h-8">
-        <NavLink to="/" className={({isActive}) =>
+        <NavLink to="/dashboard" className={({isActive}) =>
           `group relative flex flex-col items center gap-0.5 px-3 py-1 rounded-full ${isActive ? "text-[#4f47a6] border-[1.5px] border-[#545450] bg-[#30302e]" : "text-[#98968e]"}`
         }>
           <img className="w-5 h-5" src={dashboard} alt="Dashboard" />
